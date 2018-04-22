@@ -19,10 +19,7 @@ FLOOR = HEIGHT - 32*4
 
 function love.load()
     ------Initializations------
-    ---player---
-    player = require "player"
     
-    player.load()
     ----song----
     music = love.audio.newSource("res/audio/song.mp3", "static")
     music:setVolume(1.4)
@@ -30,7 +27,10 @@ function love.load()
     love.audio.setVolume(0.85)
     music:play()
     
+    ---player---
+    player = require "player"
     
+    player.load()
     
     ---buildings---
     buildings = require "buildings"
