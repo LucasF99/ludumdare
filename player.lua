@@ -3,7 +3,7 @@ local data = {
   sprite = {},
   audio = {},
   hp = 10,
-  px = 500, py = 812,
+  px = 500, py = 0,
   size = (WIDTH/1920)*4.5,
   velocity = (WIDTH/1920)*800,  
   keys = {right = "right", left = "left", jump = "space",

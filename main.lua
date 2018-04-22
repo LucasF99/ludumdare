@@ -13,7 +13,7 @@ local keys = {
 }
 ----game----
 local bgColor = {0.2, 0.6, 0.8}
-
+FLOOR = HEIGHT - 32*4
 
 ---------------------
 
@@ -29,7 +29,7 @@ function love.load()
     
     player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
     player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    player.setPy(900 - player.getSprite(17):getHeight()*player.getSize())
+    player.setPy(FLOOR - player.getSprite(17):getHeight()*player.getSize())
     ----song----
     music = love.audio.newSource("res/audio/song.mp3", "static")
     music:setVolume(1.35)
@@ -47,7 +47,6 @@ function love.load()
     buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
     ------------
     
-    
     ------Setups------
     love.graphics.setBackgroundColor(bgColor)
     love.window.setMode(WIDTH, HEIGHT, {resizable=true, vsync=false, borderless=true, fullscreen = fullScreenState})
@@ -63,7 +62,7 @@ function love.draw()
     player.draw()
     
     love.graphics.setColor(0.4, 0.4, 0.4)
-    love.graphics.rectangle("fill", 0 , (HEIGHT/1080)*900, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
+    love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
     
     buildings.draw()
 end
