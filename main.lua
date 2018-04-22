@@ -41,7 +41,8 @@ function love.load()
     
     buildings.initTowers()
     
-    buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"))
+    buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"), 1)
+    buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
     ------------
     
     
