@@ -163,7 +163,7 @@ function player.update(dt)
 end
 
 function player.draw()
-    love.graphics.setColor(0,1,0)
+    love.graphics.setColor(1, 1, 1)
     love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, player.getSize(), player.getSize())
 end
 --
