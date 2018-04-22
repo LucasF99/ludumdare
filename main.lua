@@ -82,4 +82,12 @@ function love.keypressed(key)
       buildings.build(player.getPx(), player.getPy())
     end
     
+    if key == player.getBuildResKey() then
+      player.setBuildType(1)
+    end
+    
+    if key == player.getBuildCommKey() then
+      player.setBuildType(2)
+    end
+    
 end

@@ -6,13 +6,15 @@ local data = {
   px = 500, py = 812,
   size = (WIDTH/1920)*4.5,
   velocity = (WIDTH/1920)*800,  
-  keys = {right = "right", left = "left", jump = "space"},
+  keys = {right = "right", left = "left", jump = "space",
+          buildRes = "1", buildComm = "2"},
   time = 17,
   moving = false,
   jumping = false,
   jumpInitSpeed = 25,
   jumpSpeed = 30,
-  jumpDecay = 1
+  jumpDecay = 1,
+  buildType = 1
 }
 
 function player.setSprite(a, num)
@@ -30,6 +32,7 @@ end
 function player.getPx()
     return data.px
 end
+
 function player.setPy(a)
     data.py = a
 end
@@ -37,8 +40,25 @@ end
 function player.getPy()
     return data.py
 end
+
 function player.setHp(a)
     data.hp = a
+end
+
+function player.getBuildResKey()
+    return data.keys.buildRes
+end
+
+function player.getBuildCommKey()
+    return data.keys.buildComm
+end
+
+function player.getBuildType()
+    return data.buildType
+end
+
+function player.setBuildType(t)
+    data.buildType = t
 end
 
 function player.getHp()

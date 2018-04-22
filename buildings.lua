@@ -17,7 +17,7 @@ end
 
 function buildings.build(px, py)
     index = math.ceil((px)/data.tw)
-    table.insert(data.towers[index], 2)
+    table.insert(data.towers[index], player.getBuildType())
 end
 
 function buildings.addImage(img, i)
