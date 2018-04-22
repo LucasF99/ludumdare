@@ -58,13 +58,14 @@ function love.update(dt)
     
 end
   
-function love.draw()
-    player.draw()
-    
+function love.draw()    
     love.graphics.setColor(0.4, 0.4, 0.4)
     love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
     
     buildings.draw()
+    
+    player.draw()
+    
 end
 
 function love.keypressed(key)
