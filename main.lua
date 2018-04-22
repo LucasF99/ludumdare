@@ -4,6 +4,7 @@
 ------Variables------
 ---system---
 local fullScreenState = false
+time = 0
 
 ----keys----
 local keys = {
@@ -12,12 +13,18 @@ local keys = {
 ----game----
 local bgColor = {0.8, 0.4, 0.8}
 
+
 ---------------------
 
 function love.load()
     local _, _, flags = love.window.getMode()
     WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
     
+    player = require "player"
+    
+    for i = 1, 13, 1 do
+      player.setSprite(love.graphics.newImage("res/player/Walk (".. i .. ").png"), i)
+    end
     
     ------Setups------
     love.graphics.setBackgroundColor(bgColor)
@@ -25,11 +32,13 @@ function love.load()
 end
   
 function love.update(dt)
-   
+   player.uFrame(dt, 30)
 end
   
 function love.draw()
+    love.graphics.draw(player.getFrame(), 100, 100)
     
+    love.graphics.print("", 100, 100)
 end
 
 function love.keypressed(key)
