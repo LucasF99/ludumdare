@@ -11,7 +11,7 @@ local keys = {
     quit = "escape"
 }
 ----game----
-local bgColor = {0.8, 0.4, 0.8}
+local bgColor = {0.2, 0.6, 0.8}
 
 ---------------------
 
@@ -19,8 +19,10 @@ function love.load()
     local _, _, flags = love.window.getMode()
     WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
     
+    
     player = require "player"
     
+    love.graphics.setDefaultFilter( "nearest" )
     for i = 1, 17, 1 do
       player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
     end
@@ -36,7 +38,7 @@ function love.update(dt)
 end
   
 function love.draw()
-    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, 5.5, 5.5)
+    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, (WIDTH/1920)*5.5, (WIDTH/1920)*5.5)
     
     love.graphics.print("", 100, 100)
 end

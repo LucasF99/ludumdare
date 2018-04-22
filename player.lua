@@ -1,5 +1,5 @@
 local player = {}
-local data = {sprite = {}, hp = 10, time = 17, px = 500, py = 800, velocity = 800,  keys = {right = "right", left = "left"}}
+local data = {sprite = {}, hp = 10, time = 17, px = 500, py = 800, velocity = (WIDTH/1920)*800,  keys = {right = "right", left = "left"}, isMoving = false}
 
 function player.setSprite(a, num)
     data.sprite[num] = a
@@ -38,9 +38,9 @@ function player.getVelocity(a)
 end
 --
 function player.getFrame()
-    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) then
+    if data.isMoving == "right" then
       return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1)
-    elseif love.keyboard.isDown(data.keys.left) and not love.keyboard.isDown(data.keys.right) then
+    elseif data.isMoving == "left" then
       return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1 + (#data.sprite-1)/2)
     else
       return player.getSprite(17)
@@ -52,13 +52,16 @@ end
 
 --
 function player.move(dt)
-    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) then
+    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) and data.px < WIDTH - (data.sprite[17]:getWidth())*5 then
       data.px = data.px + data.velocity*dt
-    elseif love.keyboard.isDown(data.keys.left) and not love.keyboard.isDown(data.keys.right) then
+      data.isMoving = "right"
+    elseif love.keyboard.isDown(data.keys.left) and not love.keyboard.isDown(data.keys.right)  and data.px > 0  then
       data.px = data.px - data.velocity*dt
+      data.isMoving = "left"
+    else
+      data.isMoving = false
     end
     
 end
-
 
 return player
