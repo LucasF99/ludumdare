@@ -1,6 +1,7 @@
 local player = {}
 local data = {
   sprite = {},
+  audio = {},
   hp = 10,
   px = 500, py = 812,
   size = (WIDTH/1920)*5.5,
@@ -59,19 +60,28 @@ end
 function player.getSize()
     return data.size
 end
+function player.setAudio(num, a)
+    data.audio[num] = a
+end
+
 function player.jumped()
     jumping = true
+    data.audio[2]:play()
     data.jumpSpeed = data.jumpInitSpeed
 end
 --
-function player.getFrame()
-    if data.moving == "right" then
+function player.getFrame()    
+    if data.moving == "right" and not jumping then
       return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1)
-    elseif data.moving == "left" then
+    elseif data.moving == "left" and not jumping then
       return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1 + (#data.sprite-1)/2)
+    elseif data.moving == "right" and jumping then
+      return player.getSprite(1)
+    elseif data.moving == "left" and jumping then
+      return player.getSprite(13)
     else
       return player.getSprite(17)
-    end
+    end    
 end
 function player.uFrame(dt)
     data.time = data.time+dt*data.velocity*0.05
@@ -106,6 +116,10 @@ end
 function player.update(dt)
     player.uFrame(dt)
     player.move(dt)
+    
+    if data.moving ~= false and not jumping then
+      data.audio[1]:play()
+    end
     
 end
 
