@@ -6,6 +6,7 @@
 local fullScreenState = false
 local _, _, flags = love.window.getMode()
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
+gameState = 0
 
 ----keys----
 local keys = {
@@ -32,12 +33,15 @@ function love.load()
     
     player.load()
     
-    ---buildings---
+    --buildings--
     buildings = require "buildings"
     
     buildings.load()
     
-    ---ui---
+    --startScreen--
+    playButton = love.graphics.newImage("res/play_button.png")
+    
+    -----ui-----
     ui = require "ui"
     ------------
     
@@ -52,15 +56,20 @@ function love.update(dt)
     
 end
   
-function love.draw()    
-    love.graphics.setColor(0.4, 0.4, 0.4)
-    love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
-    
-    buildings.draw()
-    
-    player.draw()
-    
-    ui.draw()
+function love.draw()
+    if gameState == 1 then
+      love.graphics.setColor(0.4, 0.4, 0.4)
+      love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
+      
+      buildings.draw()
+      
+      player.draw()
+      
+      ui.draw()
+      
+    elseif gameState == 0 then
+      love.graphics.draw(playButton, WIDTH/2, HEIGHT*1/3, 0 ,4, 4, playButton:getWidth()/2, playButton:getHeight()/2)
+    end
     
 end
 
