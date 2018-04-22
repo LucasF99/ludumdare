@@ -22,8 +22,8 @@ function love.load()
     
     player = require "player"
     
-    for i = 1, 13, 1 do
-      player.setSprite(love.graphics.newImage("res/player/Walk (".. i .. ").png"), i)
+    for i = 1, 14, 1 do
+      player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
     end
     
     ------Setups------
@@ -32,11 +32,11 @@ function love.load()
 end
   
 function love.update(dt)
-   player.uFrame(dt, 30)
+   player.uFrame(dt, 60)
 end
   
 function love.draw()
-    love.graphics.draw(player.getFrame(), 100, 100)
+    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, 4, 4)
     
     love.graphics.print("", 100, 100)
 end

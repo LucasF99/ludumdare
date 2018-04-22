@@ -1,5 +1,5 @@
 local player = {}
-local data = {sprite = {}, hp = 10, time = 0}
+local data = {sprite = {}, hp = 10, time = 0, px = 500, py = 800}
 
 function player.setSprite(a, num)
     data.sprite[num] = a
@@ -10,12 +10,20 @@ function player.getSprite(num)
 end
 
 --
-function player.setHp(a)
-    data.hp = a
+function player.setPx(a)
+    data.px = a
 end
 
-function player.getHp()
-    return data.hp
+function player.getPx()
+    return data.px
+end
+--
+function player.setPy(a)
+    data.py = a
+end
+
+function player.getPy()
+    return data.py
 end
 
 --
