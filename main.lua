@@ -30,7 +30,11 @@ function love.load()
     player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
     player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
     player.setPy(900 - player.getSprite(17):getHeight()*player.getSize())
-    ------------
+    ----song----
+    music = love.audio.newSource("res/audio/song.mp3", "static")
+    music:setVolume(1.5)
+    music:setLooping(true)
+    music:play()
     
     ---buildings---
     buildings = require "buildings"
