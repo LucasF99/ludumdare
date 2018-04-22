@@ -4,7 +4,7 @@ local data = {
   audio = {},
   hp = 10,
   px = 500, py = 812,
-  size = (WIDTH/1920)*4,
+  size = (WIDTH/1920)*4.5,
   velocity = (WIDTH/1920)*800,  
   keys = {right = "right", left = "left", jump = "space"},
   time = 17,
