@@ -4,7 +4,7 @@ local data = {
   audio = {},
   hp = 10,
   px = 500, py = 812,
-  size = (WIDTH/1920)*5.5,
+  size = (WIDTH/1920)*4,
   velocity = (WIDTH/1920)*800,  
   keys = {right = "right", left = "left", jump = "space"},
   time = 17,
@@ -108,7 +108,7 @@ function player.move(dt)
         data.jumpSpeed = data.jumpSpeed - data.jumpDecay*95*dt
       else
         data.jumpSpeed = 0
-        data.py = 812
+        player.setPy(900 - player.getSprite(17):getHeight()*player.getSize())
         jumping = false
       end
     end
