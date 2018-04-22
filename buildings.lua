@@ -9,10 +9,13 @@ local data = {
   keys = {build = "down"}
 }
 
-function buildings.initTowers()
+function buildings.load()
     for i = 1, math.ceil(WIDTH/data.tw), 1 do
       data.towers[i] = {}
     end
+    
+    buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"), 1)
+    buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
 end
 
 function buildings.build(px, py)

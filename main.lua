@@ -22,29 +22,20 @@ function love.load()
     ---player---
     player = require "player"
     
-    love.graphics.setDefaultFilter("nearest")
-    for i = 1, 17, 1 do
-      player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
-    end
-    
-    player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
-    player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    player.setPy(FLOOR - player.getSprite(17):getHeight()*player.getSize())
+    player.load()
     ----song----
     music = love.audio.newSource("res/audio/song.mp3", "static")
-    music:setVolume(1.35)
+    music:setVolume(1.4)
     music:setLooping(true)
+    love.audio.setVolume(0.85)
     music:play()
     
-    love.audio.setVolume(0.9)
+    
     
     ---buildings---
     buildings = require "buildings"
     
-    buildings.initTowers()
-    
-    buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"), 1)
-    buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
+    buildings.load()
     ------------
     
     ------Setups------
