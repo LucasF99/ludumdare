@@ -101,6 +101,12 @@ function player.move(dt)
       data.moving = false
     end
     
+    if data.px < 0 then
+      data.px = 0
+    elseif data.px > WIDTH - (data.sprite[17]:getWidth())*player.getSize() then
+      data.px = WIDTH - (data.sprite[17]:getWidth())*player.getSize()
+    end
+    
     if jumping == true then
       
       if data.jumpSpeed > -data.jumpInitSpeed then
