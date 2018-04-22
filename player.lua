@@ -102,7 +102,7 @@ function player.move(dt)
     end
     
     if data.px < 0 then
-      data.px = 0
+      data.px = 1
     elseif data.px > WIDTH - (data.sprite[17]:getWidth())*player.getSize() then
       data.px = WIDTH - (data.sprite[17]:getWidth())*player.getSize()
     end
