@@ -8,13 +8,11 @@ time = 0
 
 ----keys----
 local keys = {
-    quit = "escape",
-    player = {right = "right", left = "left"}
+    quit = "escape"
 }
 ----game----
 local bgColor = {0.8, 0.4, 0.8}
 
---
 ---------------------
 
 function love.load()
@@ -23,7 +21,7 @@ function love.load()
     
     player = require "player"
     
-    for i = 1, 8, 1 do
+    for i = 1, 17, 1 do
       player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
     end
     
@@ -34,6 +32,7 @@ end
   
 function love.update(dt)
    player.uFrame(dt)
+   player.move(dt)
 end
   
 function love.draw()
