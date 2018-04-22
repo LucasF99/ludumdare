@@ -36,6 +36,9 @@ function love.load()
     buildings = require "buildings"
     
     buildings.load()
+    
+    ---ui---
+    ui = require "ui"
     ------------
     
     ------Setups------
@@ -56,6 +59,8 @@ function love.draw()
     buildings.draw()
     
     player.draw()
+    
+    ui.draw()
     
 end
 
