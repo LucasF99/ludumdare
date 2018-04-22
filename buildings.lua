@@ -2,10 +2,10 @@ local buildings = {}
 local data = {
   towers = {},
   images = {},
-  twMult = (WIDTH/1920)*4.5,
-  fhMult = (WIDTH/1920)*4.5,
-  tw = (WIDTH/1920)*4.5*32,-- largura de cada torre
-  fh = (WIDTH/1920)*4.5*32,-- altura de cada andar
+  twMult = (WIDTH/1920)*4,
+  fhMult = (WIDTH/1920)*4,
+  tw = (WIDTH/1920)*4*32,-- largura de cada torre
+  fh = (WIDTH/1920)*4*32,-- altura de cada andar
   keys = {build = "down"}
 }
 
@@ -20,8 +20,8 @@ function buildings.build(px, py)
     table.insert(data.towers[index], 2)
 end
 
-function buildings.addImage(img)
-    table.insert(data.images, img)
+function buildings.addImage(img, i)
+    table.insert(data.images, i, img)
 end
 
 function buildings.getFloorImage(towerIndex, floorIndex)
