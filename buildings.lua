@@ -16,7 +16,7 @@ function buildings.initTowers()
 end
 
 function buildings.build(px, py)
-    index = math.ceil(px/data.tw)
+    index = math.ceil((px)/data.tw)
     table.insert(data.towers[index], 1)
 end
 
@@ -41,7 +41,7 @@ function buildings.getFhMult()
 end
 
 function buildings.getTwMult()
-    return data.thMult
+    return data.twMult
 end
 
 function buildings.getBuildKey()
@@ -53,7 +53,7 @@ function buildings.draw()
       for j = 1, #data.towers[i], 1 do
         love.graphics.setColor(1,1,1)
         love.graphics.draw(buildings.getFloorImage(i, j), (i-1)*buildings.getTw(),
-          HEIGHT-((j-1)*buildings.getFh()), 0, buildings.getTwMult(), buildings.getFhMult())
+          HEIGHT-((j)*buildings.getFh()), 0, buildings.getTwMult(), buildings.getFhMult())
       end
     end
 end
