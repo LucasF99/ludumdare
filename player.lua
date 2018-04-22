@@ -65,9 +65,11 @@ function player.setAudio(num, a)
 end
 
 function player.jumped()
+    if not jumping then
+      data.jumpSpeed = data.jumpInitSpeed
+      data.audio[2]:play()
+    end
     jumping = true
-    data.audio[2]:play()
-    data.jumpSpeed = data.jumpInitSpeed
 end
 --
 function player.getFrame()    
