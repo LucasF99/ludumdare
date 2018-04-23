@@ -5,9 +5,11 @@ local data = {
     px = {},
     py = {},
     velocityX = {},
-    velocityY = {}
+    velocityY = {},
+    time = {}
   },
- gravity = 300
+ gravity = 300,
+ animSpd = 10
 }
 
 function meteor.load()
@@ -21,6 +23,7 @@ function meteor.init()
     table.insert(data.meteor.px, math.random(0, WIDTH))
     table.insert(data.meteor.py, math.random(-HEIGHT/2, -HEIGHT/4))
     table.insert(data.meteor.velocityY, math.random(150, 350))
+    table.insert(data.meteor.time, 0)
     
     if data.meteor.px[#data.meteor.px] <= WIDTH/2 then
       table.insert(data.meteor.velocityX, math.random(0, 520))
@@ -34,6 +37,7 @@ function meteor.remove(i)
     table.remove(data.meteor.py, i)
     table.remove(data.meteor.velocityX, i)
     table.remove(data.meteor.velocityY, i)
+    table.remove(data.meteor.time, i)
 end
 
 function meteor.update(dt)
@@ -46,6 +50,9 @@ function meteor.update(dt)
       end
       for i = #data.meteor.py, 1, -1 do
         data.meteor.py[i] = data.meteor.py[i] + data.meteor.velocityY[i]*dt
+      end
+      for i = #data.meteor.time, 1, -1 do
+        data.meteor.time[i] = data.meteor.time[i] + data.animSpd*dt
       end
     end
     for i = #data.meteor.px, 1, -1 do
@@ -60,9 +67,9 @@ function meteor.draw()
     for i = #data.meteor.px, 1, -1 do
       love.graphics.setColor(1,1,1)
       if data.meteor.velocityX[i] <= 0 then 
-        love.graphics.draw(data.sprite[1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) - math.pi*3/2, 4, 4)
+        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) - math.pi*3/2, 4, 4)
       else
-        love.graphics.draw(data.sprite[1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) -math.pi/2, 4, 4)
+        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) -math.pi/2, 4, 4)
       end
     end
 end
