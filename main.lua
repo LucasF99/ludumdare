@@ -12,7 +12,8 @@ gameState = 0
 local keys = {
     quit = "escape",
     selectUp = "up",
-    selectDown = "down"
+    selectDown = "down",
+    selectOption = "return"
 }
 ----game----
 local bgColor = {0.2, 0.6, 0.8}
@@ -156,6 +157,20 @@ function love.keypressed(key)
       elseif key == keys.selectDown then
         selection = 1 
       end
+      if key == keys.selectOption then
+        if selection == 1 then
+          love.audio.stop(introSong)
+          music:play()
+          gameState = 1
+        elseif selection == 2 then
+          
+        elseif selection == 3 then
+          
+        elseif selection == 4 then
+          
+        end
+      end
+      
     end
     
 end
