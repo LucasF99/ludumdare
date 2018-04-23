@@ -10,7 +10,7 @@ function ui.load()
     player = require "player"
     
     data.images[1] = love.graphics.newImage("res/ui/meteor.png")
-    data.images[2] = love.graphics.newImage("res/ui/meteor.png")
+    data.images[2] = love.graphics.newImage("res/ui/life.png")
 end
 
 function ui.draw()
@@ -59,7 +59,7 @@ function ui.draw()
   
   -----HP/Meteormeter---------
   love.graphics.draw(data.images[1] , (WIDTH/1920)*1350, (HEIGHT/1080)*110, 5.8, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8, data.images[1]:getWidth()/2, data.images[1]:getHeight()/2)
-  love.graphics.draw(data.images[2] , (WIDTH/1920)*1350, (HEIGHT/1080)*30, 0, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8)
+  love.graphics.draw(data.images[2] , (WIDTH/1920)*1335, (HEIGHT/1080)*30, 0, (WIDTH/1920)*4, (WIDTH/1920)*4)
   
   -----Debug-----
   love.graphics.setColor(1,0,0)

@@ -84,8 +84,10 @@ function buildings.checkFloorCollision(x, y, w, h)
       if buildings.checkCollision(x,y,w,h) then
         love.graphics.setColor(1,0,0)
         inv_y = HEIGHT - y
+        -----Debug--------------
         love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
         love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
+        ------------------------
         if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
           return true
         else
