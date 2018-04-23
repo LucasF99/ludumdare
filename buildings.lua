@@ -88,6 +88,7 @@ function buildings.checkFloorCollision(x, y, w, h)
         love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
         love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
         ------------------------
+        andar = math.floor(((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) - 1
         if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
           return true
         else
