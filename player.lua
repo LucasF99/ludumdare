@@ -8,7 +8,7 @@ local data = {
   size = 16 * (WIDTH/1920)*4.5,
   velocity = (WIDTH/1920)*800,  
   keys = {right = "right", left = "left", jump = "space",
-          buildRes = "1", buildComm = "2"},
+          buildRes = "1", buildComm = "2", buildInd = "3"},
   time = 17,
   moving = false,
   jumping = false,
@@ -63,6 +63,10 @@ end
 
 function player.getBuildCommKey()
     return data.keys.buildComm
+end
+
+function player.getBuildIndKey()
+    return data.keys.buildInd
 end
 
 function player.getBuildType()

@@ -97,6 +97,10 @@ function love.keypressed(key)
       player.setBuildType(2)
     end
     
+    if key == player.getBuildIndKey() then
+      player.setBuildType(3)
+    end
+    
 end
 function rgb(r, g, b)
     return r/255, g/255, b/255
