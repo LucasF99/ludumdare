@@ -106,6 +106,10 @@ function player.getMult()
     return data.mult
 end
 
+function player.getGravVel()
+    return data.gravVel
+end
+
 function player.getSize()
     return data.size
 end

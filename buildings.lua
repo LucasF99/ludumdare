@@ -68,7 +68,7 @@ function buildings.checkCollision(x, y, w, h)
     index_start = math.ceil(x/data.tw)
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
-      max_h = FLOOR - buildings.getFh()*#data.towers[i]
+      max_h = FLOOR - buildings.getFh()*(#data.towers[i]+1)
       if y+h > max_h then
         return true
       else
@@ -78,7 +78,7 @@ function buildings.checkCollision(x, y, w, h)
 end
 
 function buildings.checkFloorCollision(x, y, w, h)
-    index_start = math.ceil(x/data.tw)
+    index_start = math.floor(x/data.tw)
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
       if buildings.checkCollision(x,y,w,h) then
@@ -88,8 +88,10 @@ function buildings.checkFloorCollision(x, y, w, h)
         love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
         love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
         ------------------------
-        andar = math.floor(((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) - 1
-        if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
+        andar = math.floor(((inv_y - h)/data.fh)) - 1
+        --if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
+        if (inv_y-h%data.fh >= 0) and (inv_y-h)%data.fh <= 2 and
+        player.getGravVel()>=0 then
           return true
         else
           return false
