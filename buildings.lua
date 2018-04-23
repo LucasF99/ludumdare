@@ -64,8 +64,16 @@ function buildings.setAudio(num, a)
     data.audio[num] = a
 end
 
+function buildings.getTowerHeight(i)
+    return #data.towers[i]
+end
+
+function buildings.getTowerIndex(x)
+    return math.ceil(x/data.tw)
+end
+
 function buildings.checkCollision(x, y, w, h)
-    index_start = math.ceil(x/data.tw)
+    index_start = math.ceil((x+w/2)/data.tw)
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
       max_h = FLOOR - buildings.getFh()*(#data.towers[i]+1)
@@ -77,8 +85,25 @@ function buildings.checkCollision(x, y, w, h)
     end
 end
 
+function buildings.onLastFloor(x,y,w,h)
+    index_start = math.ceil((x+w/2)/data.tw)
+    index_end = math.ceil((x+w)/data.tw)
+    for i = index_start, index_end, 1 do
+      max_h = FLOOR - buildings.getFh()*(#data.towers[i])
+      if y+h > max_h then
+        return false
+      else
+        if buildings.checkCollision(x,y,w,h) then
+          return true
+        else
+          return false
+        end
+      end
+    end
+end
+
 function buildings.checkFloorCollision(x, y, w, h)
-    index_start = math.floor(x/data.tw)
+    index_start = math.ceil((x+w/2)/data.tw)
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
       if buildings.checkCollision(x,y,w,h) then
@@ -101,6 +126,31 @@ function buildings.checkFloorCollision(x, y, w, h)
       end
     end
   end
+
+function buildings.checkBodyCollision(x, y, w, h)
+    index_start = math.ceil((x+w/2)/data.tw)
+    index_end = math.ceil((x+w)/data.tw)
+    for i = index_start, index_end, 1 do
+      if buildings.checkCollision(x,y,w,h) and not buildings.onLastFloor(x,y,w,h) then
+        love.graphics.setColor(1,0,0)
+        inv_y = HEIGHT - y
+        -----Debug--------------
+        love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
+        love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
+        ------------------------
+        andar = math.floor(((inv_y - h)/data.fh)) - 1
+        --if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
+        if math.floor(inv_y/data.fh) ~= math.floor((inv_y-h)/data.fh) and
+        player.getGravVel()>=0 then
+          return true
+        else
+          return false
+        end
+      else
+        return false
+      end
+    end
+end
 
 function buildings.draw()
     for i = 1, #data.towers, 1 do

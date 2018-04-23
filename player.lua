@@ -12,9 +12,10 @@ local data = {
   time = 17,
   moving = false,
   jumping = false,
-  jumpInitSpeed = (HEIGHT/1080)*1000,
+  jumpInitSpeed = (HEIGHT/1080)*1400,
   gravVel = 0,
-  gravStr = 4,
+  gravStr = 10,
+  velLimit = 1700,
   buildType = 1,
   meteorTime = 0
 }
@@ -27,7 +28,7 @@ function player.load()
     
     player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
     player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    player.setPy(FLOOR - player.getSize())
+    player.setPy(FLOOR - player.getSize() - 8)
 end
 
 function player.setSprite(a, num)
@@ -174,7 +175,11 @@ function player.update(dt)
       data.gravVel = 0
       jumping = false
     else
-      data.gravVel = data.gravVel + data.gravStr
+      if data.gravVel + data.gravStr > data.velLimit then
+        data.gravVel = data.velLimit
+      else
+        data.gravVel = data.gravVel + data.gravStr
+      end
       jumping = true
     end
       
@@ -182,6 +187,10 @@ function player.update(dt)
       data.meteorTime = data.meteorTime + 25*dt
     else
       data.meteorTime = 600
+    end
+    
+    if buildings.checkBodyCollision(data.px, data.py, data.size, data.size) then
+      data.py = HEIGHT-(math.ceil((HEIGHT-data.py)/buildings.getFh())*buildings.getFh())
     end
 end
 
