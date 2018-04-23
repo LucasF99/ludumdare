@@ -30,12 +30,10 @@ function love.load()
     
     ---player---
     player = require "player"
-    
     player.load()
     
     --buildings--
     buildings = require "buildings"
-    
     buildings.load()
     
     --startScreen--
@@ -43,6 +41,7 @@ function love.load()
     
     -----ui-----
     ui = require "ui"
+    ui.load()
     ------------
     
     ------Setups------
