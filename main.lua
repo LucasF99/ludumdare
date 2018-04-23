@@ -85,6 +85,7 @@ function love.draw()
       meteor.draw()
       
     elseif gameState == 0 then
+      love.graphics.setColor(1,1,1)
       love.graphics.draw(player.getSprite(1), WIDTH/2, HEIGHT*1/3, 0 ,12, 12, player.getSprite(1):getWidth()/2, player.getSprite(1):getHeight()/2)
       
       love.graphics.setFont(bigFont)
@@ -107,16 +108,32 @@ function love.draw()
         love.graphics.setFont(mediumFont)
         love.graphics.printf(">", -(WIDTH/1920)*60, (HEIGHT/1080)*740, WIDTH, "center")
       end
+      
+    elseif gameState == 2 then
+      
+    elseif gameState == 3 then
+      love.graphics.setFont(mediumFont)
+      love.graphics.printf("code by", 0, (HEIGHT/1080)*150, WIDTH, "center")
+      love.graphics.printf("art by", 0, (HEIGHT/1080)*450, WIDTH, "center")
+      love.graphics.printf("music and sounds by", 0, (HEIGHT/1080)*750, WIDTH, "center")
+      
+      love.graphics.setFont(bigFont)
+      love.graphics.printf("Bra1 and Zimmer", 0, (HEIGHT/1080)*230, WIDTH, "center")
+      love.graphics.printf("Bra1", 0, (HEIGHT/1080)*530, WIDTH, "center")
+      love.graphics.printf("Zimmer", 0, (HEIGHT/1080)*830, WIDTH, "center")  
+     
     end
+    
     
 end
 
 function love.keypressed(key)
-   --quits game if key.quit is pressed    
+   --quits game if key.quit is pressed          
     if gameState == 1 then
       if key == keys.quit then
-        love.event.quit()
+        gameState = 0
       end
+      
       if key == player.getJumpKey() then
         player.jumped()
       end
@@ -146,6 +163,9 @@ function love.keypressed(key)
       end
       
     elseif gameState == 0 then
+      if key == keys.quit then
+        love.event.quit()
+      end
       if key == keys.selectUp and selection ~= 1 then
         selection = selection - 1
       elseif key == keys.selectUp then
@@ -162,14 +182,22 @@ function love.keypressed(key)
           music:play()
           gameState = 1
         elseif selection == 2 then
-          
+          gameState = 2
         elseif selection == 3 then
-          
+          gameState = 3
         elseif selection == 4 then
           love.event.quit()
         end
       end
       
+    elseif gameState == 2 then
+      if key == keys.quit then
+        gameState = 0
+      end
+    elseif gameState == 3 then
+      if key == keys.quit then
+        gameState = 0
+      end
     end
     
 end
