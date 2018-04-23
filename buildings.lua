@@ -16,6 +16,7 @@ function buildings.load()
     
     buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"), 1)
     buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
+    buildings.addImage(love.graphics.newImage("res/buildings/industrial_1.png"), 3)
 end
 
 function buildings.build(px, py)

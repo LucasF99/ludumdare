@@ -31,7 +31,10 @@ function ui.draw()
   love.graphics.printf(tostring(data.material), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   
   ------Selection------
-  love.graphics.draw(buildings.getImage(1), 100 ,40, 0, 3.8, 3.8)
+  love.graphics.setColor(1,1,1)
+  love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
+  love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+  love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
   
   
   ---------------------
