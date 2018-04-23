@@ -25,11 +25,12 @@ function love.load()
     music = love.audio.newSource("res/audio/song.mp3", "static")
     music:setVolume(1.4)
     music:setLooping(true)
-    love.audio.setVolume(0.85)
-    music:play()
     
     --startScreen--
     playButton = love.graphics.newImage("res/ui/play_button.png")
+    introSong = love.audio.newSource("res/audio/intro.mp3", "static")
+    introSong:setVolume(1.4)
+    introSong:setLooping(true)
     
     ---player---
     player = require "player"
@@ -57,11 +58,16 @@ function love.load()
     love.mouse.setVisible(false)
     
     font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)
+    
+    love.audio.setVolume(0.85)
+    introSong:play()
 end
   
 function love.update(dt)
-    player.update(dt)
-    meteor.update(dt)
+    if gameState == 1 then
+      player.update(dt)
+      meteor.update(dt)
+    end
 end
   
 function love.draw()
@@ -86,40 +92,34 @@ function love.keypressed(key)
       love.event.quit()
     end
     
-    if key == player.getJumpKey() then
-      player.jumped()
-    end
-    
-    if key == buildings.getBuildKey() then
-      buildings.build(player.getPx(), player.getPy())
-    end
-    
-    if key == player.getBuildResKey() then
-      player.setBuildType(1)
-    end
-    
-    if key == player.getBuildCommKey() then
-      player.setBuildType(2)
-    end
-    
-    if key == player.getBuildIndKey() then
-      player.setBuildType(3)
-    end
-    
-    if key == "k" then
-      player.setPy(player.getPy()+10)
-    end
-    
-    if key == "i" then
-      player.setPy(player.getPy()-200)
-    end
-    
-    if key == "t" and player.getHp() > 0 then
-      player.setHp(player.getHp()-1)
-    end
-    
-    if key == "g" then
-      meteor.init()
+    if gameState == 1 then
+      if key == player.getJumpKey() then
+        player.jumped()
+      end
+      
+      if key == buildings.getBuildKey() then
+        buildings.build(player.getPx(), player.getPy())
+      end
+      
+      if key == player.getBuildResKey() then
+        player.setBuildType(1)
+      end
+      
+      if key == player.getBuildCommKey() then
+        player.setBuildType(2)
+      end
+      
+      if key == player.getBuildIndKey() then
+        player.setBuildType(3)
+      end
+      
+      if key == "t" and player.getHp() > 0 then
+        player.setHp(player.getHp()-1)
+      end
+      
+      if key == "g" then
+        meteor.init()
+      end
     end
 end
 function rgb(r, g, b)
