@@ -27,6 +27,10 @@ function buildings.addImage(img, i)
     table.insert(data.images, i, img)
 end
 
+function buildings.getImage(num)
+    return data.images[num]
+end
+
 function buildings.getFloorImage(towerIndex, floorIndex)
     return data.images[data.towers[towerIndex][floorIndex]]
 end
