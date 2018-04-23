@@ -189,7 +189,7 @@ function player.update(dt)
       data.meteorTime = 600
     end
     
-    if buildings.checkBodyCollision(data.px, data.py, data.size, data.size) then
+    if buildings.checkBodyCollision(data.px, data.py, data.size, data.size) and player.getGravVel() > 1200 then
       data.py = HEIGHT-(math.ceil((HEIGHT-data.py)/buildings.getFh())*buildings.getFh())
     end
 end
