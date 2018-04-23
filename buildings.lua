@@ -19,7 +19,7 @@ function buildings.load()
 end
 
 function buildings.build(px, py)
-    index = math.ceil((px)/data.tw)
+    index = math.ceil((px+(player.getSize()/2))/data.tw)
     table.insert(data.towers[index], player.getBuildType())
 end
 
