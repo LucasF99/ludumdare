@@ -71,6 +71,7 @@ function love.update(dt)
     if gameState == 1 then
       player.update(dt)
       meteor.update(dt)
+      ui.updateResources(dt)
     end
 end
   

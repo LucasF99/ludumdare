@@ -175,7 +175,6 @@ end
 function player.update(dt)
     player.uFrame(dt)
     player.move(dt)
-    ui.updateResources()
     
     if data.moving ~= false and not jumping then
       data.audio[1]:play()

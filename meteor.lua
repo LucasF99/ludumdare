@@ -10,14 +10,15 @@ local data = {
     time = {}
   },
  gravity = 300,
- animSpd = 10
+ animSpd = 10,
+ meteorRate = 20
 }
 
 function meteor.load()
     for i = 1, 2, 1 do
       data.sprite[i] = love.graphics.newImage("res/enemy/meteor_".. i .. ".png")
     end
-    
+    math.randomseed(os.time())
 end
 
 function meteor.init()
@@ -44,6 +45,9 @@ function meteor.remove(i)
 end
 
 function meteor.update(dt)
+    if math.random(1,10000)<data.meteorRate then
+      meteor.init()
+    end
     if #data.meteor.px > 0 then
       for i = #data.meteor.px, 1, -1 do
         data.meteor.px[i] = data.meteor.px[i] + data.meteor.velocityX[i]*dt

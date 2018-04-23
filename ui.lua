@@ -1,9 +1,14 @@
 local ui = {}
 local data = {
   images = {},
-  people = 10000,
-  money = 10000,
-  material = 10000
+  people = 100,
+  money = 100,
+  material = 100,
+  points = 0,
+  peopPS = 1,
+  monPS = 1,
+  matPS = 1,
+  pointsPS = 1
 }
 function ui.load()
     buildings = require "buildings"
@@ -37,19 +42,25 @@ function ui.setMaterial(v)
     data.material = v
 end
 
-function ui.updateResources()
+function ui.updateResources(dt)
+    pts = data.pointsPS*dt
     for i = 1, buildings.getTowerAmount(), 1 do
       for j = 1, buildings.getTowerHeight(i), 1 do
+        pts = pts + data.pointsPS*dt
         t = buildings.getFloorType(i, j)
         if t == 1 then
-          data.people = data.people + 0.006
+          data.people = data.people + data.peopPS*dt
         elseif t == 2 then
-          data.money = data.money + 0.006
+          data.money = data.money + data.monPS*dt
         elseif t == 3 then
-          data.material = data.material + 0.006
+          data.material = data.material + data.matPS*dt
         end
       end
     end
+    data.people = data.people + data.peopPS*dt
+    data.money = data.money + data.monPS*dt
+    data.material = data.material + data.matPS*dt
+    data.points = data.points + pts
 end
 
 function ui.draw()
@@ -73,7 +84,8 @@ function ui.draw()
   love.graphics.printf(tostring(math.floor(data.people)), -(WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   love.graphics.printf(tostring(math.floor(data.money)), 0, (HEIGHT/1080)*80, WIDTH, "center")
   love.graphics.printf(tostring(math.floor(data.material)), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
-  
+  love.graphics.printf("Score: "..tostring(math.floor(data.points)), 0, (HEIGHT/1080)*170, WIDTH, "center")
+
   ------Selection------
   if player.getBuildType() == 1 then
     love.graphics.setColor(1,1,1,1)
@@ -119,8 +131,6 @@ function ui.draw()
   
   -----Debug-----
   love.graphics.setColor(1,0,0)
-  love.graphics.printf(tostring(buildings.checkBodyCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize())), 20, HEIGHT-40, WIDTH, "center")
-  love.graphics.printf(tostring(buildings.checkCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize())), 200, HEIGHT-40, WIDTH, "center")
   
   
 end
