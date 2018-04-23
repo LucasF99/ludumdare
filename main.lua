@@ -112,12 +112,11 @@ function love.draw()
 end
 
 function love.keypressed(key)
-   --quits game if key.quit is pressed
-    if key == keys.quit then
-      love.event.quit()
-    end
-    
+   --quits game if key.quit is pressed    
     if gameState == 1 then
+      if key == keys.quit then
+        love.event.quit()
+      end
       if key == player.getJumpKey() then
         player.jumped()
       end
@@ -167,7 +166,7 @@ function love.keypressed(key)
         elseif selection == 3 then
           
         elseif selection == 4 then
-          
+          love.event.quit()
         end
       end
       
