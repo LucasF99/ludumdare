@@ -2,6 +2,7 @@ local buildings = {}
 local data = {
   towers = {},
   images = {},
+  audio = {},
   twMult = (WIDTH/1920)*4,
   fhMult = (WIDTH/1920)*4,
   tw = (WIDTH/1920)*4*32,-- largura de cada torre
@@ -17,11 +18,14 @@ function buildings.load()
     buildings.addImage(love.graphics.newImage("res/buildings/residential_1.png"), 1)
     buildings.addImage(love.graphics.newImage("res/buildings/commercial_1.png"), 2)
     buildings.addImage(love.graphics.newImage("res/buildings/industrial_1.png"), 3)
+    
+    buildings.setAudio(1 , love.audio.newSource("res/audio/build.mp3", "static")) 
 end
 
 function buildings.build(px, py)
     index = math.ceil((px+(player.getSize()/2))/data.tw)
     table.insert(data.towers[index], player.getBuildType())
+    data.audio[1]:play()
 end
 
 function buildings.addImage(img, i)
@@ -54,6 +58,10 @@ end
 
 function buildings.getBuildKey()
     return data.keys.build
+end
+
+function buildings.setAudio(num, a)
+    data.audio[num] = a
 end
 
 function buildings.draw()
