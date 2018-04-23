@@ -14,7 +14,7 @@ local keys = {
 }
 ----game----
 local bgColor = {0.2, 0.6, 0.8}
-FLOOR = HEIGHT - 32*4
+FLOOR = HEIGHT - (WIDTH/1920)*32*4
 
 ---------------------
 
@@ -64,7 +64,7 @@ end
 function love.draw()
     if gameState == 1 then
       love.graphics.setColor(0.4, 0.4, 0.4)
-      love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - 900))
+      love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
       
       buildings.draw()
       

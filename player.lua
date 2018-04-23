@@ -12,9 +12,9 @@ local data = {
   time = 17,
   moving = false,
   jumping = false,
-  jumpInitSpeed = 25,
-  jumpSpeed = 30,
-  jumpDecay = 1,
+  jumpInitSpeed = (HEIGHT/1080)*25,
+  jumpSpeed = 0,
+  jumpDecay = (HEIGHT/1080)*1,
   buildType = 1
 }
 
