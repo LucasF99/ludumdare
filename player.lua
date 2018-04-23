@@ -17,12 +17,13 @@ local data = {
   gravStr = 10,
   velLimit = 1700,
   buildType = 1,
-  meteorTime = 0
+  meteorTime = 0,
+  building = false
 }
 
 function player.load()
     love.graphics.setDefaultFilter("nearest")
-    for i = 1, 17, 1 do
+    for i = 1, 21, 1 do
       player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
     end
     
@@ -118,6 +119,10 @@ function player.setAudio(num, a)
     data.audio[num] = a
 end
 
+function player.build()
+    data.time = 18
+    building = true
+end
 function player.jumped()
     if buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
       data.gravVel = -data.jumpInitSpeed
@@ -125,18 +130,23 @@ function player.jumped()
     end
 end
 --
-function player.getFrame()    
-    if data.moving == "right" and not jumping then
-      return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1)
+function player.getFrame()
+    if building and data.time >= 26 then
+      building = false
+    end
+    if building then
+      return player.getSprite(math.floor(data.time)%4 + 18)
+    elseif data.moving == "right" and not jumping then
+      return player.getSprite(math.floor(data.time)%((16)/2) + 1)
     elseif data.moving == "left" and not jumping then
-      return player.getSprite(math.floor(data.time)%((#data.sprite-1)/2) + 1 + (#data.sprite-1)/2)
+      return player.getSprite(math.floor(data.time)%((16)/2) + 1 + (16)/2)
     elseif data.moving == "right" and jumping then
       return player.getSprite(1)
     elseif data.moving == "left" and jumping then
       return player.getSprite(13)
     else
       return player.getSprite(17)
-    end    
+    end
 end
 function player.uFrame(dt)
     data.time = data.time+dt*data.velocity*0.05

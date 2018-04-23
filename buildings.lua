@@ -46,6 +46,7 @@ function buildings.build(px, py)
       data.audio[1]:play()
     end
     
+    player.build()
 end
 
 function buildings.addImage(img, i)

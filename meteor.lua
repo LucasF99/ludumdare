@@ -47,23 +47,14 @@ function meteor.update(dt)
     if #data.meteor.px > 0 then
       for i = #data.meteor.px, 1, -1 do
         data.meteor.px[i] = data.meteor.px[i] + data.meteor.velocityX[i]*dt
-      end
-      for i = #data.meteor.velocityY, 1, -1 do
         data.meteor.velocityY[i] = data.meteor.velocityY[i] + data.gravity*dt
-      end
-      for i = #data.meteor.py, 1, -1 do
         data.meteor.py[i] = data.meteor.py[i] + data.meteor.velocityY[i]*dt
-      end
-      for i = #data.meteor.time, 1, -1 do
         data.meteor.time[i] = data.meteor.time[i] + data.animSpd*dt
-      end
-    end
-    for i = #data.meteor.px, 1, -1 do
         if data.meteor.py[i] > HEIGHT*3/2 then
           meteor.remove(i)
         end
+      end
     end
-    
 end
 
 function meteor.draw()

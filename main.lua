@@ -131,6 +131,8 @@ function love.keypressed(key)
    --quits game if key.quit is pressed          
     if gameState == 1 then
       if key == keys.quit then
+        love.audio.stop(music)
+        introSong:play()
         gameState = 0
       end
       
@@ -195,7 +197,7 @@ function love.keypressed(key)
         gameState = 0
       end
     elseif gameState == 3 then
-      if key == keys.quit then
+      if key == keys.quit or key == keys.selectOption then
         gameState = 0
       end
     end
