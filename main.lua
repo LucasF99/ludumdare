@@ -54,7 +54,6 @@ function love.load()
     love.mouse.setVisible(false)
     
     font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)
-    --smallFont = love.graphics.setNewFont(WIDTH/55)
 end
   
 function love.update(dt)
