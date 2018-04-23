@@ -50,7 +50,11 @@ end
 function meteor.draw()
     for i = #data.meteor.px, 1, -1 do
       love.graphics.setColor(1,1,1)
-      love.graphics.draw(data.sprite[1], data.meteor.px[i], data.meteor.py[i], math.pi/2-(math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i])), 4, 4)
+      if data.meteor.velocityX[i] <= 0 then 
+        love.graphics.draw(data.sprite[1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) - math.pi*3/2, 4, 4)
+      else
+        love.graphics.draw(data.sprite[1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) -math.pi/2, 4, 4)
+      end
     end
     if #data.meteor.px > 0 then
       love.graphics.print(data.meteor.velocityX[1], 100, 100)
