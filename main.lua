@@ -28,6 +28,9 @@ function love.load()
     love.audio.setVolume(0.85)
     music:play()
     
+    --startScreen--
+    playButton = love.graphics.newImage("res/ui/play_button.png")
+    
     ---player---
     player = require "player"
     player.load()
@@ -36,13 +39,13 @@ function love.load()
     buildings = require "buildings"
     buildings.load()
     
-    --startScreen--
-    playButton = love.graphics.newImage("res/ui/play_button.png")
-    
     -----ui-----
     ui = require "ui"
     ui.load()
-    ------------
+    
+    ---meteor---
+    meteor = require "meteor"
+    meteor.load()
     
     ------Setups------
     love.graphics.setBackgroundColor(bgColor)
@@ -58,7 +61,7 @@ end
   
 function love.update(dt)
     player.update(dt)
-    
+    meteor.update(dt)
 end
   
 function love.draw()
@@ -67,10 +70,9 @@ function love.draw()
       love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
       
       buildings.draw()
-      
       player.draw()
-      
       ui.draw()
+      meteor.draw()
       
     elseif gameState == 0 then
       love.graphics.draw(playButton, WIDTH/2, HEIGHT*1/3, 0 ,4, 4, playButton:getWidth()/2, playButton:getHeight()/2)
@@ -114,6 +116,10 @@ function love.keypressed(key)
     
     if key == "t" and player.getHp() > 0 then
       player.setHp(player.getHp()-1)
+    end
+    
+    if key == "g" then
+      meteor.init()
     end
 end
 function rgb(r, g, b)
