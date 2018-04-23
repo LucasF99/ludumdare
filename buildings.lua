@@ -64,6 +64,19 @@ function buildings.setAudio(num, a)
     data.audio[num] = a
 end
 
+function buildings.checkCollision(x, y, w, h)
+    index_start = math.ceil(x/data.tw)
+    index_end = math.ceil((x+w)/data.tw)
+    for i = index_start, index_end, 1 do
+      max_h = FLOOR - buildings.getFh()*#data.towers[i]
+      if y+h > max_h then
+        return true
+      else
+        return false
+      end
+    end
+end
+
 function buildings.draw()
     for i = 1, #data.towers, 1 do
       for j = 1, #data.towers[i], 1 do
