@@ -37,7 +37,7 @@ function love.load()
     buildings.load()
     
     --startScreen--
-    playButton = love.graphics.newImage("res/play_button.png")
+    playButton = love.graphics.newImage("res/ui/play_button.png")
     
     -----ui-----
     ui = require "ui"
@@ -46,7 +46,11 @@ function love.load()
     
     ------Setups------
     love.graphics.setBackgroundColor(bgColor)
-    love.window.setMode(WIDTH, HEIGHT, {resizable=true, vsync=false, borderless=true, fullscreen = fullScreenState})
+    if WIDTH >= 1920 and HEIGHT >= 1080 then
+      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=false, borderless=true, fullscreen = fullScreenState})
+    else
+      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=false, fullscreen = fullScreenState})
+    end
     love.mouse.setVisible(false)
     
     font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)

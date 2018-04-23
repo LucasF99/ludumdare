@@ -1,5 +1,6 @@
 local ui = {}
 local data = {
+  images = {},
   people = 100,
   money = 100,
   material = 100
@@ -7,6 +8,9 @@ local data = {
 function ui.load()
     buildings = require "buildings"
     player = require "player"
+    
+    data.images[1] = love.graphics.newImage("res/ui/meteor.png")
+    data.images[2] = love.graphics.newImage("res/ui/meteor.png")
 end
 
 function ui.draw()
@@ -32,27 +36,31 @@ function ui.draw()
   love.graphics.printf(tostring(data.material), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   
   ------Selection------
-  
   if player.getBuildType() == 1 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, 3, 3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
-    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, 3, 3)
   elseif player.getBuildType() == 2 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, 3, 3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
-    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, 3, 3)
   elseif player.getBuildType() == 3 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, 3, 3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
-    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, 3, 3)
   end
-  ---------------------
+  love.graphics.setColor(1,1,1,1)
+  
+  -----HP/Meteormeter---------
+  love.graphics.draw(data.images[1] , 150, 40, 0, 3, 3)
+  
+  
 end
 
 return ui
