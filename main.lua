@@ -109,7 +109,7 @@ function love.keypressed(key)
     end
     
     if key == "i" then
-      player.setPy(player.getPy()-10)
+      player.setPy(player.getPy()-200)
     end
 end
 function rgb(r, g, b)

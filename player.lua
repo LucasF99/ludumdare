@@ -12,9 +12,9 @@ local data = {
   time = 17,
   moving = false,
   jumping = false,
-  jumpInitSpeed = (HEIGHT/1080)*25,
-  jumpSpeed = 0,
-  jumpDecay = (HEIGHT/1080)*1,
+  jumpInitSpeed = (HEIGHT/1080)*1000,
+  gravVel = 0,
+  gravStr = 4,
   buildType = 1
 }
 
@@ -105,11 +105,10 @@ function player.setAudio(num, a)
 end
 
 function player.jumped()
-    if not jumping then
-      data.jumpSpeed = data.jumpInitSpeed
+    if buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
+      data.gravVel = -data.jumpInitSpeed
       data.audio[2]:play()
     end
-    jumping = true
 end
 --
 function player.getFrame()    
@@ -147,18 +146,6 @@ function player.move(dt)
       data.px = WIDTH - player.getSize()
     end
     
-    if jumping == true then
-      
-      if data.jumpSpeed > -data.jumpInitSpeed then
-        data.py = data.py - data.jumpSpeed*70*dt
-        data.jumpSpeed = data.jumpSpeed - data.jumpDecay*95*dt
-      else
-        data.jumpSpeed = 0
-        player.setPy(FLOOR - player.getSize())
-        jumping = false
-      end
-    end
-    
 end
 
 function player.update(dt)
@@ -169,6 +156,15 @@ function player.update(dt)
       data.audio[1]:play()
     end
     
+    player.setPy(player.getPy() + data.gravVel*dt)
+    if buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
+      data.gravVel = 0
+      jumping = false
+    else
+      data.gravVel = data.gravVel + data.gravStr
+      jumping = true
+    end
+      
 end
 
 function player.draw()
