@@ -15,7 +15,8 @@ local data = {
   jumpInitSpeed = (HEIGHT/1080)*1000,
   gravVel = 0,
   gravStr = 4,
-  buildType = 1
+  buildType = 1,
+  meteorTime = 0
 }
 
 function player.load()
@@ -37,6 +38,10 @@ function player.getSprite(num)
     return data.sprite[num]
 end
 
+function player.getMeteorTime()
+    return data.meteorTime
+end
+
 function player.setPx(a)
     data.px = a
 end
@@ -55,6 +60,10 @@ end
 
 function player.setHp(a)
     data.hp = a
+end
+
+function player.getHp()
+    return data.hp
 end
 
 function player.getBuildResKey()
@@ -165,6 +174,11 @@ function player.update(dt)
       jumping = true
     end
       
+    if data.meteorTime < 600 then
+      data.meteorTime = data.meteorTime + 25*dt
+    else
+      data.meteorTime = 600
+    end
 end
 
 function player.draw()

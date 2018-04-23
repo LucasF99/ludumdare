@@ -58,15 +58,30 @@ function ui.draw()
   love.graphics.setColor(1,1,1,1)
   
   -----HP/Meteormeter---------
-  love.graphics.draw(data.images[1] , (WIDTH/1920)*1350, (HEIGHT/1080)*110, 5.8, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8, data.images[1]:getWidth()/2, data.images[1]:getHeight()/2)
-  love.graphics.draw(data.images[2] , (WIDTH/1920)*1335, (HEIGHT/1080)*30, 0, (WIDTH/1920)*4, (WIDTH/1920)*4)
+  love.graphics.draw(data.images[1], (WIDTH/1920)*1350, (HEIGHT/1080)*110, 5.8, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8, data.images[1]:getWidth()/2, data.images[1]:getHeight()/2)
+  love.graphics.draw(data.images[2], (WIDTH/1920)*1335, (HEIGHT/1080)*30, 0, (WIDTH/1920)*4, (WIDTH/1920)*4)
+  
+  -----Hp-----
+  love.graphics.setColor(0.2,0.2,0.2)
+  love.graphics.rectangle("line", (WIDTH/1920)*1390, (HEIGHT/1080)*27, (WIDTH/1920)*400, (HEIGHT/1080)*40)
+  love.graphics.setColor(0,1,0)
+  love.graphics.rectangle("fill", (WIDTH/1920)*1397, (HEIGHT/1080)*33, (WIDTH/1920)*38.6 * player.getHp(), (HEIGHT/1080)*28)
+  
+  ---Meteor---
+  love.graphics.setColor(rgb(133, 142, 145))
+  love.graphics.rectangle("fill", (WIDTH/1920)*1390, (HEIGHT/1080)*110, (WIDTH/1920)*400, (HEIGHT/1080)*7)  
+  if player.getMeteorTime() < 400 then
+    love.graphics.setColor(1,1,0)
+    love.graphics.rectangle("fill", (WIDTH/1920)*1390, (HEIGHT/1080)*110, (WIDTH/1920)*player.getMeteorTime(), (HEIGHT/1080)*7)
+  else
+    love.graphics.setColor(1,1 - (player.getMeteorTime() - 400)/200,0)
+    love.graphics.rectangle("fill", (WIDTH/1920)*1390, (HEIGHT/1080)*110, (WIDTH/1920)*400, (HEIGHT/1080)*7)
+  end  
   
   -----Debug-----
   love.graphics.setColor(1,0,0)
-  love.graphics.printf(tostring(buildings.checkCollision(player.getPx(),
-        player.getPy(), player.getSize(), player.getSize())), 20, HEIGHT-40, WIDTH, "center")
-  love.graphics.printf(tostring(buildings.checkFloorCollision(player.getPx(),
-        player.getPy(), player.getSize(), player.getSize())), 200, HEIGHT-40, WIDTH, "center")
+  love.graphics.printf(tostring(buildings.checkCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize())), 20, HEIGHT-40, WIDTH, "center")
+  love.graphics.printf(tostring(buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize())), 200, HEIGHT-40, WIDTH, "center")
   
   
 end

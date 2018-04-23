@@ -111,6 +111,10 @@ function love.keypressed(key)
     if key == "i" then
       player.setPy(player.getPy()-200)
     end
+    
+    if key == "t" and player.getHp() > 0 then
+      player.setHp(player.getHp()-1)
+    end
 end
 function rgb(r, g, b)
     return r/255, g/255, b/255
