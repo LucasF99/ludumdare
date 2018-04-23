@@ -6,6 +6,7 @@ local data = {
     py = {},
     velocityX = {},
     velocityY = {},
+    size = {},
     time = {}
   },
  gravity = 300,
@@ -23,6 +24,7 @@ function meteor.init()
     table.insert(data.meteor.px, math.random(0, WIDTH))
     table.insert(data.meteor.py, math.random(-HEIGHT/2, -HEIGHT/4))
     table.insert(data.meteor.velocityY, math.random(150, 350))
+    table.insert(data.meteor.size, math.random(3.7, 4.3))
     table.insert(data.meteor.time, 0)
     
     if data.meteor.px[#data.meteor.px] <= WIDTH/2 then
@@ -38,6 +40,7 @@ function meteor.remove(i)
     table.remove(data.meteor.velocityX, i)
     table.remove(data.meteor.velocityY, i)
     table.remove(data.meteor.time, i)
+    table.remove(data.meteor.size, i)
 end
 
 function meteor.update(dt)
@@ -67,9 +70,11 @@ function meteor.draw()
     for i = #data.meteor.px, 1, -1 do
       love.graphics.setColor(1,1,1)
       if data.meteor.velocityX[i] <= 0 then 
-        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) - math.pi*3/2, 4, 4)
+        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i],
+         math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) - math.pi*3/2, data.meteor.size[i], data.meteor.size[i])
       else
-        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i], math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) -math.pi/2, 4, 4)
+        love.graphics.draw(data.sprite[math.floor(data.meteor.time[i])%2 + 1], data.meteor.px[i], data.meteor.py[i],
+         math.atan(data.meteor.velocityY[i]/data.meteor.velocityX[i]) -math.pi/2, data.meteor.size[i], data.meteor.size[i])
       end
     end
 end
