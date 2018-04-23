@@ -42,11 +42,11 @@ function ui.updateResources()
       for j = 1, buildings.getTowerHeight(i), 1 do
         t = buildings.getFloorType(i, j)
         if t == 1 then
-          data.people = data.people + 1
+          data.people = data.people + 0.006
         elseif t == 2 then
-          data.money = data.money + 1
+          data.money = data.money + 0.006
         elseif t == 3 then
-          data.material = data.material + 1
+          data.material = data.material + 0.006
         end
       end
     end
@@ -70,9 +70,9 @@ function ui.draw()
   love.graphics.printf("Material:", (WIDTH/1920)*170, (HEIGHT/1080)*46, WIDTH, "center")
   
   love.graphics.setColor(1,1,1)
-  love.graphics.printf(tostring(data.people), -(WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
-  love.graphics.printf(tostring(data.money), 0, (HEIGHT/1080)*80, WIDTH, "center")
-  love.graphics.printf(tostring(data.material), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
+  love.graphics.printf(tostring(math.floor(data.people)), -(WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
+  love.graphics.printf(tostring(math.floor(data.money)), 0, (HEIGHT/1080)*80, WIDTH, "center")
+  love.graphics.printf(tostring(math.floor(data.material)), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   
   ------Selection------
   if player.getBuildType() == 1 then
