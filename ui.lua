@@ -13,6 +13,30 @@ function ui.load()
     data.images[2] = love.graphics.newImage("res/ui/life.png")
 end
 
+function ui.getMoney()
+    return data.money
+end
+
+function ui.getPeople()
+    return data.people
+end
+
+function ui.getMaterial()
+    return data.material
+end
+
+function ui.setMoney(v)
+    data.money = v
+end
+
+function ui.setPeople(v)
+    data.people = v
+end
+
+function ui.setMaterial(v)
+    data.material = v
+end
+
 function ui.draw()
   ------Resources------
   love.graphics.setColor(rgb(133, 142, 145))

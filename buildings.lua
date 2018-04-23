@@ -7,7 +7,10 @@ local data = {
   fhMult = (WIDTH/1920)*4,
   tw = (WIDTH/1920)*4*32,-- largura de cada torre
   fh = (WIDTH/1920)*4*32,-- altura de cada andar
-  keys = {build = "down"}
+  keys = {build = "down"},
+  peopleCost = 20,
+  moneyCost = 20,
+  materialCost = 20
 }
 
 function buildings.load()
@@ -24,8 +27,25 @@ end
 
 function buildings.build(px, py)
     index = math.ceil((px+(player.getSize()/2))/data.tw)
-    table.insert(data.towers[index], player.getBuildType())
-    data.audio[1]:play()
+    if player.getBuildType() == 1 and ui.getMoney()>=data.moneyCost and ui.getMaterial()>=data.materialCost then
+      table.insert(data.towers[index], 1)
+      ui.setMoney(ui.getMoney()-data.moneyCost)
+      ui.setMaterial(ui.getMaterial()-data.materialCost)
+      data.audio[1]:play()
+    end
+    if player.getBuildType() == 2 and ui.getPeople()>=data.peopleCost and ui.getMaterial()>=data.materialCost then
+      table.insert(data.towers[index], 2)
+      ui.setMaterial(ui.getMaterial()-data.materialCost)
+      ui.setPeople(ui.getPeople()-data.peopleCost)
+      data.audio[1]:play()
+    end
+    if player.getBuildType() == 3 and ui.getMoney()>=data.moneyCost and ui.getPeople()>=data.peopleCost then
+      table.insert(data.towers[index], 3)
+      ui.setPeople(ui.getPeople()-data.peopleCost)
+      ui.setMoney(ui.getMoney()-data.moneyCost)
+      data.audio[1]:play()
+    end
+    
 end
 
 function buildings.addImage(img, i)
