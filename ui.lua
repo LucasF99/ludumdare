@@ -60,6 +60,13 @@ function ui.draw()
   -----HP/Meteormeter---------
   love.graphics.draw(data.images[1] , 150, 40, 0, 3, 3)
   
+  -----Debug-----
+  love.graphics.setColor(1,0,0)
+  love.graphics.printf(tostring(buildings.checkCollision(player.getPx(),
+        player.getPy(), player.getSize(), player.getSize())), 20, HEIGHT-40, WIDTH, "center")
+  love.graphics.printf(tostring(buildings.checkFloorCollision(player.getPx(),
+        player.getPy(), player.getSize(), player.getSize())), 200, HEIGHT-40, WIDTH, "center")
+  
   
 end
 

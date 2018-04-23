@@ -77,6 +77,26 @@ function buildings.checkCollision(x, y, w, h)
     end
 end
 
+function buildings.checkFloorCollision(x, y, w, h)
+    index_start = math.ceil(x/data.tw)
+    index_end = math.ceil((x+w)/data.tw)
+    for i = index_start, index_end, 1 do
+      if buildings.checkCollision(x,y,w,h) then
+        love.graphics.setColor(1,0,0)
+        inv_y = HEIGHT - y
+        love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
+        love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
+        if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
+          return true
+        else
+          return false
+        end
+      else
+        return false
+      end
+    end
+  end
+
 function buildings.draw()
     for i = 1, #data.towers, 1 do
       for j = 1, #data.towers[i], 1 do
