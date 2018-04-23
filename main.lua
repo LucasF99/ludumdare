@@ -6,7 +6,7 @@
 local fullScreenState = false
 local _, _, flags = love.window.getMode()
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
-gameState = 0
+gameState = 1
 
 ----keys----
 local keys = {
