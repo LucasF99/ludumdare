@@ -26,24 +26,26 @@ function buildings.load()
 end
 
 function buildings.build(px, py)
-    index = math.ceil((px+(player.getSize()/2))/data.tw)
-    if player.getBuildType() == 1 and ui.getMoney()>=data.moneyCost and ui.getMaterial()>=data.materialCost then
-      table.insert(data.towers[index], 1)
-      ui.setMoney(ui.getMoney()-data.moneyCost)
-      ui.setMaterial(ui.getMaterial()-data.materialCost)
-      data.audio[1]:play()
-    end
-    if player.getBuildType() == 2 and ui.getPeople()>=data.peopleCost and ui.getMaterial()>=data.materialCost then
-      table.insert(data.towers[index], 2)
-      ui.setMaterial(ui.getMaterial()-data.materialCost)
-      ui.setPeople(ui.getPeople()-data.peopleCost)
-      data.audio[1]:play()
-    end
-    if player.getBuildType() == 3 and ui.getMoney()>=data.moneyCost and ui.getPeople()>=data.peopleCost then
-      table.insert(data.towers[index], 3)
-      ui.setPeople(ui.getPeople()-data.peopleCost)
-      ui.setMoney(ui.getMoney()-data.moneyCost)
-      data.audio[1]:play()
+    if buildings.onLastFloor(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
+      index = math.ceil((px+(player.getSize()/2))/data.tw)
+      if player.getBuildType() == 1 and ui.getMoney()>=data.moneyCost and ui.getMaterial()>=data.materialCost then
+        table.insert(data.towers[index], 1)
+        ui.setMoney(ui.getMoney()-data.moneyCost)
+        ui.setMaterial(ui.getMaterial()-data.materialCost)
+        data.audio[1]:play()
+      end
+      if player.getBuildType() == 2 and ui.getPeople()>=data.peopleCost and ui.getMaterial()>=data.materialCost then
+        table.insert(data.towers[index], 2)
+        ui.setMaterial(ui.getMaterial()-data.materialCost)
+        ui.setPeople(ui.getPeople()-data.peopleCost)
+        data.audio[1]:play()
+      end
+      if player.getBuildType() == 3 and ui.getMoney()>=data.moneyCost and ui.getPeople()>=data.peopleCost then
+        table.insert(data.towers[index], 3)
+        ui.setPeople(ui.getPeople()-data.peopleCost)
+        ui.setMoney(ui.getMoney()-data.moneyCost)
+        data.audio[1]:play()
+      end
     end
     
     player.build()
@@ -168,8 +170,6 @@ function buildings.checkBodyCollision(x, y, w, h)
         love.graphics.setColor(1,0,0)
         inv_y = HEIGHT - y
         -----Debug--------------
-        love.graphics.printf(tostring(math.floor(inv_y/data.fh)), 400,400, WIDTH, "center")
-        love.graphics.printf(tostring(math.floor((inv_y-h)/data.fh)), 500,400, WIDTH, "center")
         ------------------------
         andar = math.floor(((inv_y - h)/data.fh)) - 1
         --if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
