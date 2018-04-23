@@ -6,14 +6,17 @@
 local fullScreenState = false
 local _, _, flags = love.window.getMode()
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
-gameState = 1
+gameState = 0
 
 ----keys----
 local keys = {
-    quit = "escape"
+    quit = "escape",
+    selectUp = "up",
+    selectDown = "down"
 }
 ----game----
 local bgColor = {0.2, 0.6, 0.8}
+local selection = 1
 FLOOR = HEIGHT - (WIDTH/1920)*32*4
 
 ---------------------
@@ -22,13 +25,11 @@ function love.load()
     ------Initializations------
     
     ----song----
-    music = love.audio.newSource("res/audio/song.mp3", "static")
+    music = love.audio.newSource("res/audio/song.mp3", "static") --game song
     music:setVolume(1.4)
     music:setLooping(true)
     
-    --startScreen--
-    playButton = love.graphics.newImage("res/ui/play_button.png")
-    introSong = love.audio.newSource("res/audio/intro.mp3", "static")
+    introSong = love.audio.newSource("res/audio/intro.mp3", "static") --intro song
     introSong:setVolume(1.4)
     introSong:setLooping(true)
     
@@ -58,6 +59,8 @@ function love.load()
     love.mouse.setVisible(false)
     
     font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)
+    bigFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/15)
+    mediumFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/25)
     
     love.audio.setVolume(0.85)
     introSong:play()
@@ -81,7 +84,28 @@ function love.draw()
       meteor.draw()
       
     elseif gameState == 0 then
-      love.graphics.draw(playButton, WIDTH/2, HEIGHT*1/3, 0 ,4, 4, playButton:getWidth()/2, playButton:getHeight()/2)
+      love.graphics.draw(player.getSprite(1), WIDTH/2, HEIGHT*1/3, 0 ,12, 12, player.getSprite(1):getWidth()/2, player.getSprite(1):getHeight()/2)
+      
+      love.graphics.setFont(bigFont)
+      love.graphics.printf("Start Game", 0, (HEIGHT/1080)*500, WIDTH, "center")
+      love.graphics.setFont(mediumFont)
+      love.graphics.printf("Options", 0, (HEIGHT/1080)*600, WIDTH, "center")
+      love.graphics.printf("Credits", 0, (HEIGHT/1080)*670, WIDTH, "center")
+      love.graphics.printf("Exit", 0, (HEIGHT/1080)*740, WIDTH, "center")
+      
+      if selection == 1 then
+        love.graphics.setFont(bigFont)
+        love.graphics.printf(">", -(WIDTH/1920)*200, (HEIGHT/1080)*500, WIDTH, "center")
+      elseif selection == 2 then
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf(">", -(WIDTH/1920)*100, (HEIGHT/1080)*600, WIDTH, "center")
+      elseif selection == 3 then
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf(">", -(WIDTH/1920)*100, (HEIGHT/1080)*670, WIDTH, "center")
+      elseif selection == 4 then
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf(">", -(WIDTH/1920)*60, (HEIGHT/1080)*740, WIDTH, "center")
+      end
     end
     
 end
@@ -120,7 +144,20 @@ function love.keypressed(key)
       if key == "g" then
         meteor.init()
       end
+      
+    elseif gameState == 0 then
+      if key == keys.selectUp and selection ~= 1 then
+        selection = selection - 1
+      elseif key == keys.selectUp then
+        selection = 4
+      end
+      if key == keys.selectDown and selection ~= 4 then
+        selection = selection + 1
+      elseif key == keys.selectDown then
+        selection = 1 
+      end
     end
+    
 end
 function rgb(r, g, b)
     return r/255, g/255, b/255
