@@ -6,13 +6,14 @@
 local fullScreenState = false
 local _, _, flags = love.window.getMode()
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
-gameState = 1
+gameState = 0
 
 ----keys----
 local keys = {
     quit = "escape",
     selectUp = "up",
-    selectDown = "down"
+    selectDown = "down",
+    selectOption = "return"
 }
 ----game----
 local bgColor = {0.2, 0.6, 0.8}
@@ -111,12 +112,11 @@ function love.draw()
 end
 
 function love.keypressed(key)
-   --quits game if key.quit is pressed
-    if key == keys.quit then
-      love.event.quit()
-    end
-    
+   --quits game if key.quit is pressed    
     if gameState == 1 then
+      if key == keys.quit then
+        love.event.quit()
+      end
       if key == player.getJumpKey() then
         player.jumped()
       end
@@ -156,6 +156,20 @@ function love.keypressed(key)
       elseif key == keys.selectDown then
         selection = 1 
       end
+      if key == keys.selectOption then
+        if selection == 1 then
+          love.audio.stop(introSong)
+          music:play()
+          gameState = 1
+        elseif selection == 2 then
+          
+        elseif selection == 3 then
+          
+        elseif selection == 4 then
+          love.event.quit()
+        end
+      end
+      
     end
     
 end
