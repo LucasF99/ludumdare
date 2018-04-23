@@ -58,7 +58,8 @@ function ui.draw()
   love.graphics.setColor(1,1,1,1)
   
   -----HP/Meteormeter---------
-  love.graphics.draw(data.images[1] , 150, 40, 0, 3, 3)
+  love.graphics.draw(data.images[1] , (WIDTH/1920)*1350, (HEIGHT/1080)*110, 5.8, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8, data.images[1]:getWidth()/2, data.images[1]:getHeight()/2)
+  love.graphics.draw(data.images[2] , (WIDTH/1920)*1350, (HEIGHT/1080)*30, 0, (WIDTH/1920)*0.8, (WIDTH/1920)*0.8)
   
   -----Debug-----
   love.graphics.setColor(1,0,0)
