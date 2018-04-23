@@ -5,7 +5,8 @@ local data = {
   material = 100
 }
 function ui.load()
-    buildings = require "buildings" 
+    buildings = require "buildings"
+    player = require "player"
 end
 
 function ui.draw()
@@ -31,12 +32,26 @@ function ui.draw()
   love.graphics.printf(tostring(data.material), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   
   ------Selection------
-  love.graphics.setColor(1,1,1)
-  love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
-  love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
-  love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
   
-  
+  if player.getBuildType() == 1 then
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
+    love.graphics.setColor(1,1,1, 0.3)
+    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+  elseif player.getBuildType() == 2 then
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+    love.graphics.setColor(1,1,1, 0.3)
+    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+  elseif player.getBuildType() == 3 then
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.draw(buildings.getImage(3), 450 ,40, 0, 3, 3)
+    love.graphics.setColor(1,1,1, 0.3)
+    love.graphics.draw(buildings.getImage(1), 150 ,40, 0, 3, 3)
+    love.graphics.draw(buildings.getImage(2), 300 ,40, 0, 3, 3)
+  end
   ---------------------
 end
 
