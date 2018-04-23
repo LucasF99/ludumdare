@@ -4,7 +4,8 @@ local data = {
   audio = {},
   hp = 10,
   px = 500, py = 0,
-  size = (WIDTH/1920)*4.5,
+  mult = (WIDTH/1920)*4.5,
+  size = 16 * (WIDTH/1920)*4.5,
   velocity = (WIDTH/1920)*800,  
   keys = {right = "right", left = "left", jump = "space",
           buildRes = "1", buildComm = "2"},
@@ -25,7 +26,7 @@ function player.load()
     
     player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
     player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    player.setPy(FLOOR - player.getSprite(17):getHeight()*player.getSize())
+    player.setPy(FLOOR - player.getSize())
 end
 
 function player.setSprite(a, num)
@@ -84,8 +85,12 @@ end
 function player.getJumpKey()
     return data.keys.jump
 end
-function player.setSize(a)
-    data.size = a*(WIDTH/1920)
+function player.setMult(a)
+    data.mult = a*(WIDTH/1920)
+end
+
+function player.getMult()
+    return data.mult
 end
 
 function player.getSize()
@@ -122,7 +127,7 @@ end
 
 --
 function player.move(dt)
-    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) and data.px < WIDTH - (data.sprite[17]:getWidth())*player.getSize() then
+    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) and data.px < WIDTH - player.getSize() then
       data.px = data.px + data.velocity*dt
       data.moving = "right"
     elseif love.keyboard.isDown(data.keys.left) and not love.keyboard.isDown(data.keys.right)  and data.px > 0  then
@@ -134,8 +139,8 @@ function player.move(dt)
     
     if data.px < 0 then
       data.px = 1
-    elseif data.px > WIDTH - (data.sprite[17]:getWidth())*player.getSize() then
-      data.px = WIDTH - (data.sprite[17]:getWidth())*player.getSize()
+    elseif data.px > WIDTH - player.getSize() then
+      data.px = WIDTH - player.getSize()
     end
     
     if jumping == true then
@@ -145,7 +150,7 @@ function player.move(dt)
         data.jumpSpeed = data.jumpSpeed - data.jumpDecay*95*dt
       else
         data.jumpSpeed = 0
-        player.setPy(FLOOR - player.getSprite(17):getHeight()*player.getSize())
+        player.setPy(FLOOR - player.getSize())
         jumping = false
       end
     end
@@ -164,7 +169,7 @@ end
 
 function player.draw()
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, player.getSize(), player.getSize())
+    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, player.getMult(), player.getMult())
 end
 --
 return player
