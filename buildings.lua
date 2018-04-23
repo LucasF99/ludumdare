@@ -56,7 +56,7 @@ function buildings.draw()
       for j = 1, #data.towers[i], 1 do
         love.graphics.setColor(1,1,1)
         love.graphics.draw(buildings.getFloorImage(i, j), (i-1)*buildings.getTw(),
-          HEIGHT-((j)*buildings.getFh()), 0, buildings.getTwMult(), buildings.getFhMult())
+          HEIGHT-((j+1)*buildings.getFh()), 0, buildings.getTwMult(), buildings.getFhMult())
       end
     end
 end
