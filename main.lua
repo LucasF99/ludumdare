@@ -104,6 +104,11 @@ function love.keypressed(key)
       player.setBuildType(3)
     end
     
+    if key == "4" then
+      print(tostring(buildings.checkCollision(player.getPx(),
+            player.getPy(), player.getSize(), player.getSize())))
+    end
+    
 end
 function rgb(r, g, b)
     return r/255, g/255, b/255
