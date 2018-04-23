@@ -1,9 +1,9 @@
 local ui = {}
 local data = {
   images = {},
-  people = 100,
-  money = 100,
-  material = 100
+  people = 10000,
+  money = 10000,
+  material = 10000
 }
 function ui.load()
     buildings = require "buildings"
@@ -35,6 +35,10 @@ end
 
 function ui.setMaterial(v)
     data.material = v
+end
+
+function ui.updateResources()
+    
 end
 
 function ui.draw()

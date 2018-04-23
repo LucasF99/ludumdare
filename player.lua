@@ -190,6 +190,7 @@ function player.update(dt)
     end
     
     if buildings.checkBodyCollision(data.px, data.py, data.size, data.size) and player.getGravVel() > 1200 then
+      player.gravVel = 0
       data.py = HEIGHT-(math.ceil((HEIGHT-data.py)/buildings.getFh())*buildings.getFh())
     end
 end
