@@ -49,6 +49,9 @@ function love.load()
     love.graphics.setBackgroundColor(bgColor)
     love.window.setMode(WIDTH, HEIGHT, {resizable=true, vsync=false, borderless=true, fullscreen = fullScreenState})
     love.mouse.setVisible(false)
+    
+    font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)
+    --smallFont = love.graphics.setNewFont(WIDTH/55)
 end
   
 function love.update(dt)
@@ -95,4 +98,7 @@ function love.keypressed(key)
       player.setBuildType(2)
     end
     
+end
+function rgb(r, g, b)
+    return r/255, g/255, b/255
 end
