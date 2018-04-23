@@ -140,7 +140,7 @@ function buildings.checkBodyCollision(x, y, w, h)
         ------------------------
         andar = math.floor(((inv_y - h)/data.fh)) - 1
         --if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
-        if math.floor(inv_y/data.fh) ~= math.floor((inv_y-h)/data.fh) and
+        if math.floor(inv_y/data.fh) ~= math.floor((inv_y-h+12)/data.fh) and
         player.getGravVel()>=0 then
           return true
         else
