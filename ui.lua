@@ -38,7 +38,18 @@ function ui.setMaterial(v)
 end
 
 function ui.updateResources()
-    
+    for i = 1, buildings.getTowerAmount(), 1 do
+      for j = 1, buildings.getTowerHeight(i), 1 do
+        t = buildings.getFloorType(i, j)
+        if t == 1 then
+          data.people = data.people + 1
+        elseif t == 2 then
+          data.money = data.money + 1
+        elseif t == 3 then
+          data.material = data.material + 1
+        end
+      end
+    end
 end
 
 function ui.draw()

@@ -92,6 +92,18 @@ function buildings.getTowerIndex(x)
     return math.ceil(x/data.tw)
 end
 
+function buildings.getTowers()
+    return data.towers
+end
+
+function buildings.getFloorType(i, j)
+    return data.towers[i][j]
+end
+
+function buildings.getTowerAmount()
+    return #data.towers
+end
+
 function buildings.checkCollision(x, y, w, h)
     index_start = math.ceil((x+w/2)/data.tw)
     index_end = math.ceil((x+w)/data.tw)
@@ -160,7 +172,7 @@ function buildings.checkBodyCollision(x, y, w, h)
         ------------------------
         andar = math.floor(((inv_y - h)/data.fh)) - 1
         --if not (math.floor((inv_y)/data.fh) == math.floor((-(WIDTH/1920)*4*2+inv_y - h)/data.fh)) then
-        if math.floor(inv_y/data.fh) ~= math.floor((inv_y-h+12)/data.fh) and
+        if math.floor((inv_y-(h/2))/data.fh) ~= math.floor((inv_y-h)/data.fh) and
         player.getGravVel()>=0 then
           return true
         else
