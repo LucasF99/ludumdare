@@ -4,6 +4,7 @@
 ------Variables------
 ---system---
 local fullScreenState = false
+local vsyncState = false
 local _, _, flags = love.window.getMode()
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
 gameState = 0
@@ -54,9 +55,9 @@ function love.load()
     ------Setups------
     love.graphics.setBackgroundColor(bgColor)
     if WIDTH >= 1920 and HEIGHT >= 1080 then
-      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=false, borderless=true, fullscreen = fullScreenState})
+      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, borderless=true, fullscreen = fullScreenState})
     else
-      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=false, fullscreen = fullScreenState})
+      love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, fullscreen = fullScreenState})
     end
     love.mouse.setVisible(false)
     
@@ -125,6 +126,12 @@ function love.draw()
       end
       
     elseif gameState == 2 then
+      love.graphics.setFont(bigFont)
+      if not vsyncState then
+        love.graphics.printf("VSync: Off", 0, (HEIGHT/1080)*450, WIDTH, "center")
+      elseif vsyncState then
+        love.graphics.printf("VSync:  On", 0, (HEIGHT/1080)*450, WIDTH, "center")
+      end
       
     elseif gameState == 3 then
       love.graphics.setFont(mediumFont)
@@ -151,6 +158,7 @@ function love.keypressed(key)
         love.audio.play(music)
         pause = false
       end
+      
       if key == keys.selectOption and pause then
         love.audio.stop(music)
         introSong:play()
@@ -190,11 +198,13 @@ function love.keypressed(key)
       if key == keys.quit then
         love.event.quit()
       end
+      
       if key == keys.selectUp and selection ~= 1 then
         selection = selection - 1
       elseif key == keys.selectUp then
         selection = 4
       end
+      
       if key == keys.selectDown and selection ~= 4 then
         selection = selection + 1
       elseif key == keys.selectDown then
@@ -218,6 +228,24 @@ function love.keypressed(key)
       if key == keys.quit then
         gameState = 0
       end
+      if key == 'return' then
+        if vsyncState then
+          vsyncState = false
+          if WIDTH >= 1920 and HEIGHT >= 1080 then
+            love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, borderless=true, fullscreen = fullScreenState})
+          else
+            love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, fullscreen = fullScreenState})
+          end
+        else
+          vsyncState = true
+          if WIDTH >= 1920 and HEIGHT >= 1080 then
+            love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, borderless=true, fullscreen = fullScreenState})
+          else
+            ove.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, fullscreen = fullScreenState})
+          end
+        end
+      end
+      
     elseif gameState == 3 then
       if key == keys.quit or key == keys.selectOption then
         gameState = 0
