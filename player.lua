@@ -29,9 +29,9 @@ function player.load()
     end
     
     --loads player sounds
-    player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
-    player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    
+    audio[1] = love.audio.newSource("res/audio/step.mp3", "static")
+    audio[2] = love.audio.newSource("res/audio/jump.mp3", "static")
+   
     --sets player's initial height
     py = FLOOR - size - 8
 end
@@ -76,64 +76,6 @@ end
 function player.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(player.getFrame(), px, py, 0, mult, mult)
-end
-
-function player.getSpriteWidth(i, kind)
-    kind = kind or "ready"
-    if kind == "ready" then
-      return sprite[i]:getWidth() * mult
-    elseif kind == "pure" then
-      return sprite[i]:getWidth()
-    end
-end
-
-function player.getSpriteHeight(i, kind)
-    kind = kind or "ready"
-    if kind == "ready" then
-      return sprite[i]:getHeight() * mult
-    elseif kind == "pure" then
-      return sprite[i]:getHeight()
-    end
-end
-
-function player.getMeteorTime()
-    return meteorTime
-end
-
-function player.getPx()
-    return px
-end
-
-function player.getPy()
-    return py
-end
-
-function player.getHp()
-    return hp
-end
-
-function player.getKeys()
-    return keys
-end
-
-function player.getBuildType()
-    return buildType
-end
-
-function player.getGravVel()
-    return gravVel
-end
-
-function player.setAudio(num, a)
-    audio[num] = a
-end
-
-function player.setBuildType(a)
-    buildType = a
-end
-
-function player.damage(a)
-    hp = hp - a
 end
 
 function player.build()
@@ -196,6 +138,61 @@ function player.checkCollision(x, y)
     end
   end
   return false
+end
+
+
+function player.getSpriteWidth(i, kind)
+    kind = kind or "ready"
+    if kind == "ready" then
+      return sprite[i]:getWidth() * mult
+    elseif kind == "pure" then
+      return sprite[i]:getWidth()
+    end
+end
+
+function player.getSpriteHeight(i, kind)
+    kind = kind or "ready"
+    if kind == "ready" then
+      return sprite[i]:getHeight() * mult
+    elseif kind == "pure" then
+      return sprite[i]:getHeight()
+    end
+end
+
+function player.getMeteorTime()
+    return meteorTime
+end
+
+function player.getPx()
+    return px
+end
+
+function player.getPy()
+    return py
+end
+
+function player.getHp()
+    return hp
+end
+
+function player.getKeys()
+    return keys
+end
+
+function player.getBuildType()
+    return buildType
+end
+
+function player.getGravVel()
+    return gravVel
+end
+
+function player.setBuildType(a)
+    buildType = a
+end
+
+function player.damage(a)
+    hp = hp - a
 end
 
 --
