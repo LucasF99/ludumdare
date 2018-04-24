@@ -5,9 +5,9 @@ local data = {
   money = 100,
   material = 100,
   points = 0,
-  peopPS = 1,
-  monPS = 1,
-  matPS = 1,
+  peopPS = 2.5,
+  monPS = 2.5,
+  matPS = 2.5,
   pointsPS = 1
 }
 function ui.load()

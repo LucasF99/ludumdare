@@ -176,6 +176,10 @@ function player.update(dt)
     player.uFrame(dt)
     player.move(dt)
     
+    if data.hp <= 0 then
+      gameState = 0
+    end
+    
     if data.moving ~= false and not jumping then
       data.audio[1]:play()
     end
