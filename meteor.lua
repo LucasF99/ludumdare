@@ -87,9 +87,9 @@ function meteor.init()
     table.insert(meteors.size, math.random(3.7, 4.3))
     table.insert(meteors.time, 0)
     if meteors.px[#meteors.px] <= WIDTH/2 then
-      table.insert(meteors.velocityX, math.random(0, 520))
+      table.insert(meteors.velocityX, math.random(0, 1000))
     else
-      table.insert(meteors.velocityX, math.random(-520, 0))
+      table.insert(meteors.velocityX, math.random(-1000, 0))
     end
     
 end
