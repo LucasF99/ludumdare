@@ -92,7 +92,14 @@ function buildings.getTowerHeight(i)
 end
 
 function buildings.getTowerIndex(x)
-    return math.ceil(x/data.tw)
+    ind = math.ceil(x/data.tw)
+    if ind<1 then
+      ind = 1
+    end
+    if ind>math.ceil(WIDTH/data.tw) then
+      ind=math.ceil(WIDTH/data.tw)
+    end
+    return ind
 end
 
 function buildings.getTowers()
@@ -110,6 +117,12 @@ end
 function buildings.checkCollision(x, y, w, h)
     index_start = math.ceil((x+w/2)/data.tw)
     index_end = math.ceil((x+w)/data.tw)
+    if index_start<1 then
+      index_start = 1
+    end
+    if index_start>math.ceil(WIDTH/data.tw) then
+      index_start=math.ceil(WIDTH/data.tw)
+    end
     for i = index_start, index_end, 1 do
       max_h = FLOOR - buildings.getFh()*(#data.towers[i]+1)
       if y+h > max_h then
@@ -122,12 +135,7 @@ end
 
 function buildings.onLastFloor(x,y,w,h)
     index_start = math.ceil((x+w/2)/data.tw)
-    if index_start<1 then
-      index_start = 1
-    end
-    if index_start>math.ceil(WIDTH/data.tw) then
-      index_start=math.ceil(WIDTH/data.tw)
-    end
+    
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
       max_h = FLOOR - buildings.getFh()*(#data.towers[i])

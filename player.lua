@@ -205,6 +205,15 @@ function player.update(dt)
     end
 end
 
+function player.checkCollision(x, y)
+  if x + 80>= data.px and x - 80 <= data.px then
+    if y + 80>= data.py and y - 80 <= data.py then
+      return true
+    end
+  end
+  return false
+end
+
 function player.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, player.getMult(), player.getMult())

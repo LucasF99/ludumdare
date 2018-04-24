@@ -11,7 +11,7 @@ local data = {
   },
  gravity = 300,
  animSpd = 10,
- meteorRate = 20
+ meteorRate = 0
 }
 
 function meteor.load()
@@ -54,16 +54,27 @@ function meteor.update(dt)
         data.meteor.velocityY[i] = data.meteor.velocityY[i] + data.gravity*dt
         data.meteor.py[i] = data.meteor.py[i] + data.meteor.velocityY[i]*dt
         data.meteor.time[i] = data.meteor.time[i] + data.animSpd*dt
+        if data.meteor.px[i] ~= nil and 
+        data.meteor.py[i] ~= nil and 
+        data.meteor.size[i] ~= nil and player.checkCollision(data.meteor.px[i], data.meteor.py[i]) then
+          player.setHp(player.getHp()-2)
+          meteor.remove(i)
+          return
+        end
         if data.meteor.py[i] > HEIGHT*3/2 then
           meteor.remove(i)
+          return
         end
-        --[[if data.meteor.px[i] ~= nil and 
-        data.meteor.py[i] ~= nil and 
-        data.meteor.size[i] ~= nil and 
-        data.sprite[i] ~= nil and buildings.checkCollision(data.meteor.px[i], data.meteor.py[i], (data.sprite[i]:getWidth()*data.meteor.size[i]), (data.sprite[i]:getWidth()*data.meteor.size[i])) then
-          buildings.getTowers()[(buildings.getTowerIndex(data.meteor.px[i]+data.meteor.size[i]*data.sprite[i]:getWidth()/2))].remove(math.ceil((HEIGHT-data.meteor.py[i])/buildings.getFh()))
-          meteor.remove(i)
-        end/]]--
+        if buildings.checkCollision(data.meteor.px[i], data.meteor.py[i], (32*data.meteor.size[i]), (32*data.meteor.size[i])) then
+          if buildings.getTowers()[buildings.getTowerIndex(data.meteor.px[i]+data.meteor.size[i]*32/2)]~=nil then
+            table.remove(buildings.getTowers()[(buildings.getTowerIndex(data.meteor.px[i]+data.meteor.size[i]*32/2))],1)
+            --math.floor((HEIGHT-data.meteor.py[i])/buildings.getFh())
+            if meteor~=nil then
+              meteor.remove(i)
+              return
+            end
+          end
+        end
       end
     end
 end
