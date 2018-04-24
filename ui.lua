@@ -84,6 +84,7 @@ function ui.draw()
   love.graphics.printf(tostring(math.floor(data.people)), -(WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
   love.graphics.printf(tostring(math.floor(data.money)), 0, (HEIGHT/1080)*80, WIDTH, "center")
   love.graphics.printf(tostring(math.floor(data.material)), (WIDTH/1920)*170, (HEIGHT/1080)*80, WIDTH, "center")
+  
   love.graphics.printf("Score: "..tostring(math.floor(data.points)), 0, (HEIGHT/1080)*170, WIDTH, "center")
 
   ------Selection------

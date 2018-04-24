@@ -19,6 +19,7 @@ local keys = {
 local bgColor = {0.2, 0.6, 0.8}
 local selection = 1
 FLOOR = HEIGHT - (WIDTH/1920)*32*4
+local pause = false
 
 ---------------------
 
@@ -62,13 +63,14 @@ function love.load()
     font = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/40)
     bigFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/15)
     mediumFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/25)
+    hugeFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/5)
     
     love.audio.setVolume(0.85)
     introSong:play()
 end
   
 function love.update(dt)
-    if gameState == 1 then
+    if gameState == 1 and not pause then
       player.update(dt)
       meteor.update(dt)
       ui.updateResources(dt)
@@ -76,7 +78,7 @@ function love.update(dt)
 end
   
 function love.draw()
-    if gameState == 1 then
+    if gameState == 1 then      
       love.graphics.setColor(0.4, 0.4, 0.4)
       love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
       
@@ -84,7 +86,19 @@ function love.draw()
       player.draw()
       ui.draw()
       meteor.draw()
+    if pause then
+      love.graphics.setColor(0, 0, 0, 0.5)
+      love.graphics.rectangle("fill", 0 , 0, WIDTH, HEIGHT)
       
+      love.graphics.setFont(hugeFont)
+      love.graphics.setColor(1,1,1)
+      love.graphics.printf("||", 0, (HEIGHT/1080)*400, WIDTH, "center", 0)
+      
+      love.graphics.setFont(font)
+      love.graphics.setColor(0.15,0.15,0.15)
+      love.graphics.printf("Press '" .. keys.quit .. "' to resume", 0, (HEIGHT/1080)*700, WIDTH, "center", 0)
+      love.graphics.printf("Press '" .. keys.selectOption .. "' to go to menu", 0, (HEIGHT/1080)*750, WIDTH, "center", 0)
+    end
     elseif gameState == 0 then
       love.graphics.setColor(1,1,1)
       love.graphics.draw(player.getSprite(1), WIDTH/2, HEIGHT*1/3, 0 ,12, 12, player.getSprite(1):getWidth()/2, player.getSprite(1):getHeight()/2)
@@ -129,11 +143,18 @@ function love.draw()
 end
 
 function love.keypressed(key)
-   --quits game if key.quit is pressed          
     if gameState == 1 then
-      if key == keys.quit then
+      if key == keys.quit and not pause then
+        love.audio.pause(music)
+        pause = true
+      elseif key == keys.quit then
+        love.audio.play(music)
+        pause = false
+      end
+      if key == keys.selectOption and pause then
         love.audio.stop(music)
         introSong:play()
+        pause = false
         gameState = 0
       end
       
