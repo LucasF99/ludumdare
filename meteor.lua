@@ -11,7 +11,7 @@ local data = {
   },
  gravity = 300,
  animSpd = 10,
- meteorRate = 0
+ meteorRate = 20
 }
 
 function meteor.load()
