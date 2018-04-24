@@ -42,9 +42,10 @@ end
 function player.update(dt)
     player.move(dt)
     
-    --time = time+dt*velocity*0.05
+    
     time = time + dt
     
+    --resets time after waiting for the time a frame should last based on 'frameTime'
     if time >= frameTime then
       time = 0
       frame = frame + 1
