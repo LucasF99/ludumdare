@@ -142,6 +142,7 @@ function player.build()
     --when build key is pressed, start build animation
     frame = 18
     building = true
+    
 end
 
 function player.jumped()
