@@ -241,7 +241,7 @@ function love.keypressed(key)
           if WIDTH >= 1920 and HEIGHT >= 1080 then
             love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, borderless=true, fullscreen = fullScreenState})
           else
-            ove.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, fullscreen = fullScreenState})
+            love.window.setMode(WIDTH, HEIGHT, {resizable=false, vsync=vsyncState, fullscreen = fullScreenState})
           end
         end
       end
