@@ -29,6 +29,7 @@ function meteor.update(dt)
     end
     
     if #meteors.px > 0 then
+      --loops through all meteors
       for i = #meteors.px, 1, -1 do
         --updates meteors positions and velocities
         meteors.px[i] = meteors.px[i] + meteors.velocityX[i]*dt
@@ -44,16 +45,16 @@ function meteor.update(dt)
         
         --checks meteor-player collission
         if player.checkCollision(meteors.px[i], meteors.py[i]) then
-          player.setHp(player.getHp()-2)
+          player.damage(2)
           meteor.remove(i)
         end
         
-        if buildings.checkCollision(meteors.px[i], meteors.py[i], (32*meteors.size[i]), (32*meteors.size[i])) then
+        --[[if buildings.checkCollision(meteors.px[i], meteors.py[i], (32*meteors.size[i]), (32*meteors.size[i])) then
           if buildings.getTowers(buildings.getTowerIndex(meteors.px[i]+meteors.size[i]*32/2))~=nil then
             --table.remove(buildings.getTowers((buildings.getTowerIndex(meteors.px[i]+meteors.size[i]*32/2))), 1)
             --meteor.remove(i)
           end
-        end
+        end]]
         
       end
     end

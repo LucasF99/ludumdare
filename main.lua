@@ -66,6 +66,8 @@ function love.load()
     mediumFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/25)
     hugeFont = love.graphics.setNewFont("res/fonts/thintel.ttf", WIDTH/5)
     
+    introImg = love.graphics.newImage("res/player/player_1.png")
+    
     love.audio.setVolume(0.85)
     introSong:play()
 end
@@ -102,7 +104,8 @@ function love.draw()
     end
     elseif gameState == 0 then
       love.graphics.setColor(1,1,1)
-      love.graphics.draw(player.getSprite(1), WIDTH/2, HEIGHT*1/3, 0 ,12, 12, player.getSprite(1):getWidth()/2, player.getSprite(1):getHeight()/2)
+      love.graphics.draw(introImg, WIDTH/2, HEIGHT*1/3, 0 ,12, 12, 
+       player.getSpriteWidth(1, "pure")/2, player.getSpriteHeight(1, "pure")/2)
       
       love.graphics.setFont(bigFont)
       love.graphics.printf("Start Game", 0, (HEIGHT/1080)*500, WIDTH, "center")
