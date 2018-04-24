@@ -67,7 +67,7 @@ function player.update(dt)
       meteorTime = 600
     end
     
-    if buildings.checkBodyCollision(px, py, size, size) and player.getGravVel() > 1200 then
+    if buildings.checkBodyCollision(px, py, size, size) and gravVel > 1200 then
       player.gravVel = 0
       py = HEIGHT-(math.ceil((HEIGHT-py)/buildings.getFh())*buildings.getFh())
     end
@@ -112,55 +112,24 @@ function player.getHp()
     return hp
 end
 
-function player.getBuildResKey()
-    return keys.buildRes
-end
-
-function player.getBuildCommKey()
-    return keys.buildComm
-end
-
-function player.getBuildIndKey()
-    return keys.buildInd
+function player.getKeys()
+    return keys
 end
 
 function player.getBuildType()
     return buildType
 end
 
-function player.setBuildType(t)
-    buildType = t
-end
-
-function player.getHp()
-    return hp
-end
-function player.setVelocity(a)
-    velocity = (WIDTH/1920)*a
-end
-function player.getVelocity()
-    return velocity
-end
-function player.getJumpKey()
-    return keys.jump
-end
-function player.setMult(a)
-    mult = a*(WIDTH/1920)
-end
-
-function player.getMult()
-    return mult
-end
-
 function player.getGravVel()
     return gravVel
 end
 
-function player.getSize()
-    return size
-end
 function player.setAudio(num, a)
     audio[num] = a
+end
+
+function player.setBuildType(a)
+    buildType = a
 end
 
 function player.damage(a)
@@ -202,7 +171,7 @@ end
 
 --
 function player.move(dt)
-    if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - player.getSize() then
+    if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - size then
       px = px + velocity*dt
       moving = "right"
     elseif love.keyboard.isDown(keys.left) and not love.keyboard.isDown(keys.right)  and px > 0  then
@@ -214,8 +183,8 @@ function player.move(dt)
     
     if px < 0 then
       px = 1
-    elseif px > WIDTH - player.getSize() then
-      px = WIDTH - player.getSize()
+    elseif px > WIDTH - size then
+      px = WIDTH - size
     end
     
 end

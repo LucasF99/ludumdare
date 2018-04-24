@@ -169,7 +169,7 @@ function love.keypressed(key)
         gameState = 0
       end
       
-      if key == player.getJumpKey() then
+      if key == player.getKeys().jump then
         player.jumped()
       end
       
@@ -177,20 +177,20 @@ function love.keypressed(key)
         buildings.build(player.getPx(), player.getPy())
       end
       
-      if key == player.getBuildResKey() then
+      if key == player.getKeys().buildRes then
         player.setBuildType(1)
       end
       
-      if key == player.getBuildCommKey() then
+      if key == player.getKeys().buildComm then
         player.setBuildType(2)
       end
       
-      if key == player.getBuildIndKey() then
+      if key == player.getKeys().buildInd then
         player.setBuildType(3)
       end
       
       if key == "t" and player.getHp() > 0 then
-        player.setHp(player.getHp()-1)
+        player.damage(1)
       end
       
       if key == "g" then

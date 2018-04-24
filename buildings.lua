@@ -26,8 +26,8 @@ function buildings.load()
 end
 
 function buildings.build(px, py)
-    if buildings.onLastFloor(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
-      index = math.ceil((px+(player.getSize()/2))/data.tw)
+    if buildings.onLastFloor(player.getPx(), player.getPy(), player.getSpriteWidth(1, "ready"), player.getSpriteHeight(1, "ready")) then
+      index = math.ceil((px+(player.getSpriteHeight(1, "ready")/2))/data.tw)
       if player.getBuildType() == 1 and ui.getMoney()>=data.moneyCost and ui.getMaterial()>=data.materialCost then
         table.insert(data.towers[index], 1)
         ui.setMoney(ui.getMoney()-data.moneyCost)
