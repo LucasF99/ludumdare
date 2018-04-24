@@ -48,7 +48,7 @@ function meteor.update(dt)
     if math.random(1,10000)<data.meteorRate then
       meteor.init()
     end
-    if #data.meteor.px > 0 then
+    if #data.meteor.px > 0 and #data.sprite > 0 then
       for i = #data.meteor.px, 1, -1 do
         data.meteor.px[i] = data.meteor.px[i] + data.meteor.velocityX[i]*dt
         data.meteor.velocityY[i] = data.meteor.velocityY[i] + data.gravity*dt
@@ -57,6 +57,13 @@ function meteor.update(dt)
         if data.meteor.py[i] > HEIGHT*3/2 then
           meteor.remove(i)
         end
+        --[[if data.meteor.px[i] ~= nil and 
+        data.meteor.py[i] ~= nil and 
+        data.meteor.size[i] ~= nil and 
+        data.sprite[i] ~= nil and buildings.checkCollision(data.meteor.px[i], data.meteor.py[i], (data.sprite[i]:getWidth()*data.meteor.size[i]), (data.sprite[i]:getWidth()*data.meteor.size[i])) then
+          buildings.getTowers()[(buildings.getTowerIndex(data.meteor.px[i]+data.meteor.size[i]*data.sprite[i]:getWidth()/2))].remove(math.ceil((HEIGHT-data.meteor.py[i])/buildings.getFh()))
+          meteor.remove(i)
+        end/]]--
       end
     end
 end

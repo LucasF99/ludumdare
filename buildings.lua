@@ -122,6 +122,12 @@ end
 
 function buildings.onLastFloor(x,y,w,h)
     index_start = math.ceil((x+w/2)/data.tw)
+    if index_start<1 then
+      index_start = 1
+    end
+    if index_start>math.ceil(WIDTH/data.tw) then
+      index_start=math.ceil(WIDTH/data.tw)
+    end
     index_end = math.ceil((x+w)/data.tw)
     for i = index_start, index_end, 1 do
       max_h = FLOOR - buildings.getFh()*(#data.towers[i])
