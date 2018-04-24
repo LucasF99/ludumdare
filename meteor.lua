@@ -45,7 +45,7 @@ function meteor.remove(i)
 end
 
 function meteor.update(dt)
-    if math.random(1,10000)<data.meteorRate then
+    if math.random(1,10000)<data.meteorRate*math.log(ui.getPoints())/10 then
       meteor.init()
     end
     if #data.meteor.px > 0 and #data.sprite > 0 then

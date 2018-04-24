@@ -30,6 +30,10 @@ function ui.getMaterial()
     return data.material
 end
 
+function ui.getPoints()
+  return data.points
+end
+
 function ui.setMoney(v)
     data.money = v
 end
@@ -49,11 +53,11 @@ function ui.updateResources(dt)
         pts = pts + data.pointsPS*dt
         t = buildings.getFloorType(i, j)
         if t == 1 then
-          data.people = data.people + data.peopPS*dt
+          data.people = data.people + data.peopPS*dt * 2/math.log(data.points)
         elseif t == 2 then
-          data.money = data.money + data.monPS*dt
+          data.money = data.money + data.monPS*dt  * 2/math.log(data.points)
         elseif t == 3 then
-          data.material = data.material + data.matPS*dt
+          data.material = data.material + data.matPS*dt * 2/math.log(data.points)
         end
       end
     end
