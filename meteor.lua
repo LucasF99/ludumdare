@@ -73,6 +73,7 @@ function meteor.draw()
     
 end
 
+-----------------
 function meteor.init()
     --initializes meteors
     table.insert(meteors.px, math.random(0, WIDTH))

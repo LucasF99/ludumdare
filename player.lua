@@ -1,5 +1,6 @@
 local player = {}
 
+------Variables------
 local sprite = {}
 local audio = {}
 local hp = 10
@@ -19,8 +20,10 @@ local velLimit = 1700
 local buildType = 1
 local meteorTime = 0
 local building = false
+local frame = 0
+local frameTime = 0.035
 
-
+------Functions------
 function player.load()
     --loads player sprite
     love.graphics.setDefaultFilter("nearest")
@@ -37,13 +40,22 @@ function player.load()
 end
 
 function player.update(dt)
-    player.uFrame(dt)
     player.move(dt)
     
+    --time = time+dt*velocity*0.05
+    time = time + dt
+    
+    if time >= frameTime then
+      time = 0
+      frame = frame + 1
+    end
+    
+    --goes to start screen if player is killed
     if hp <= 0 then
       gameState = 0
     end
     
+    --makes stepping sound when moving and not jumping
     if moving ~= false and not jumping then
       audio[1]:play()
     end
@@ -74,45 +86,39 @@ function player.update(dt)
 end
 
 function player.draw()
+    --draws player
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(player.getFrame(), px, py, 0, mult, mult)
+    love.graphics.draw(sprite[player.defineSprite()], px, py, 0, mult, mult)
+    
 end
 
-function player.build()
-    time = 18
-    building = true
-end
-function player.jumped()
-    if buildings.checkFloorCollision(px, py, size, size) then
-      gravVel = -jumpInitSpeed
-      audio[2]:play()
-    end
-end
---
-function player.getFrame()
-    if building and time >= 26 then
+-----------------
+function player.defineSprite()
+    -- loops through building animation frames
+    if building and frame >= 24 then
+      frame = 0
       building = false
     end
+    
+    --returns the sprite index to draw based on the direction the player is moving
     if building then
-      return sprite[math.floor(time)%4 + 18]
+      return frame%4 + 18
     elseif moving == "right" and not jumping then
-      return sprite[math.floor(time)%((16)/2) + 1]
+      return frame%8 + 1
     elseif moving == "left" and not jumping then
-      return sprite[math.floor(time)%((16)/2) + 1 + (16)/2]
-    elseif moving == "right" and jumping then
-      return sprite[1]
-    elseif moving == "left" and jumping then
-      return sprite[13]
+      return frame%8 + 9
+    elseif moving == "right" then
+      return 1
+    elseif moving == "left" then
+      return 13
     else
-      return sprite[17]
+      return 17
     end
-end
-function player.uFrame(dt)
-    time = time+dt*velocity*0.05
+    
 end
 
---
 function player.move(dt)
+    --walks right or left or doesn't walk
     if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - size then
       px = px + velocity*dt
       moving = "right"
@@ -123,10 +129,25 @@ function player.move(dt)
       moving = false
     end
     
+    --doesn't allow player to walk out of screen
     if px < 0 then
       px = 1
     elseif px > WIDTH - size then
       px = WIDTH - size
+    end
+    
+end
+
+function player.build()
+    --when build key is pressed, start build animation
+    frame = 18
+    building = true
+end
+
+function player.jumped()
+    if buildings.checkFloorCollision(px, py, size, size) then
+      gravVel = -jumpInitSpeed
+      audio[2]:play()
     end
     
 end
@@ -140,7 +161,7 @@ function player.checkCollision(x, y)
   return false
 end
 
-
+------gets/sets------
 function player.getSpriteWidth(i, kind)
     kind = kind or "ready"
     if kind == "ready" then
