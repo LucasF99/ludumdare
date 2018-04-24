@@ -49,13 +49,6 @@ function meteor.update(dt)
           meteor.remove(i)
         end
         
-        --[[if buildings.checkCollision(meteors.px[i], meteors.py[i], (32*meteors.size[i]), (32*meteors.size[i])) then
-          if buildings.getTowers(buildings.getTowerIndex(meteors.px[i]+meteors.size[i]*32/2))~=nil then
-            --table.remove(buildings.getTowers((buildings.getTowerIndex(meteors.px[i]+meteors.size[i]*32/2))), 1)
-            --meteor.remove(i)
-          end
-        end]]
-        
       end
     end
     
