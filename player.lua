@@ -18,6 +18,7 @@ local building = false
 local jumpInitSpeed = (HEIGHT/1080)*1300
 local gravVel = 0
 local gravity = (HEIGHT/1080)*5000
+local limit = FLOOR
 
 local meteorTime = 0
 
@@ -36,6 +37,9 @@ function player.load()
     --loads player sounds
     audio[1] = love.audio.newSource("res/audio/step.mp3", "static")
     audio[2] = love.audio.newSource("res/audio/jump.mp3", "static")
+    
+    --setup
+    buildings = require "buildings"
    
     --sets player's initial height
     py = FLOOR - player.getSpriteWidth(1)
@@ -67,13 +71,19 @@ function player.update(dt)
       audio[1]:play()
     end
     
+    if buildings.floorCollision() and buildings.getPlayerYblock() <= 7 then
+      limit = HEIGHT - buildings.getPlayerYblock()*buildings.getSpriteSize()
+    else
+      limit = FLOOR
+    end
+    
     if not player.isTouching() then
       gravVel = gravVel + gravity*dt
       py = py + gravVel*dt
     end
     
-    if py + player.getSpriteWidth(1) > FLOOR then
-      py = FLOOR - player.getSpriteWidth(1)
+    if py + player.getSpriteWidth(1) > limit then
+      py = limit - player.getSpriteWidth(1)
     end
     
 end
@@ -150,7 +160,7 @@ function player.jumped()
 end
 
 function player.isTouching()
-    if py + player.getSpriteWidth(1) == FLOOR then
+    if py + player.getSpriteWidth(1) == limit then
       return true
     else
       return false

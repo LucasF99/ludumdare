@@ -76,11 +76,13 @@ function love.update(dt)
     if gameState == 1 and not pause then
       player.update(dt)
       meteor.update(dt)
+      buildings.update(dt)
       --ui.updateResources(dt)
     end
 end
   
 function love.draw()
+    ------GAMESTATE 1------
     if gameState == 1 then      
       love.graphics.setColor(0.4, 0.4, 0.4)
       love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
@@ -102,6 +104,8 @@ function love.draw()
       love.graphics.printf("Press '" .. keys.quit .. "' to resume", 0, (HEIGHT/1080)*700, WIDTH, "center", 0)
       love.graphics.printf("Press '" .. keys.selectOption .. "' to go to menu", 0, (HEIGHT/1080)*750, WIDTH, "center", 0)
     end
+    
+    ------GAMESTATE 0------
     elseif gameState == 0 then
       love.graphics.setColor(1,1,1)
       love.graphics.draw(introImg, WIDTH/2, HEIGHT*1/3, 0 ,12, 12, 
@@ -127,7 +131,8 @@ function love.draw()
         love.graphics.setFont(mediumFont)
         love.graphics.printf(">", -(WIDTH/1920)*60, (HEIGHT/1080)*740, WIDTH, "center")
       end
-      
+    
+    ------GAMESTATE 2------
     elseif gameState == 2 then
       love.graphics.setFont(bigFont)
       if not vsyncState then
@@ -136,6 +141,7 @@ function love.draw()
         love.graphics.printf("VSync:  On", 0, (HEIGHT/1080)*450, WIDTH, "center")
       end
       
+    ------GAMESTATE 3------
     elseif gameState == 3 then
       love.graphics.setFont(mediumFont)
       love.graphics.printf("code by", 0, (HEIGHT/1080)*150, WIDTH, "center")
@@ -148,11 +154,11 @@ function love.draw()
       love.graphics.printf("Zimmer", 0, (HEIGHT/1080)*830, WIDTH, "center")  
      
     end
-    
-    
+    -----------------------
 end
 
 function love.keypressed(key)
+    ------GAMESTATE 1------
     if gameState == 1 then
       if key == keys.quit and not pause then
         love.audio.pause(music)
@@ -175,7 +181,7 @@ function love.keypressed(key)
       
       if key == player.getKeys().build then
         player.build()
-        buildings.init(player.getPx() - player.getSpriteWidth(1, "ready")/2, player.getPy() + player.getSpriteHeight(1, "ready"))
+        buildings.init( (player.getPx() - player.getSpriteWidth(1, "ready")/2), (player.getPy() + player.getSpriteHeight(1, "ready")))
       end
       
       if key == player.getKeys().buildRes then
@@ -198,6 +204,7 @@ function love.keypressed(key)
         meteor.init()
       end
       
+    ------GAMESTATE 0------  
     elseif gameState == 0 then
       if key == keys.quit then
         love.event.quit()
@@ -228,6 +235,7 @@ function love.keypressed(key)
         end
       end
       
+    ------GAMESTATE 2------
     elseif gameState == 2 then
       if key == keys.quit then
         gameState = 0
@@ -249,14 +257,16 @@ function love.keypressed(key)
           end
         end
       end
-      
+     
+    ------GAMESTATE 3------
     elseif gameState == 3 then
       if key == keys.quit or key == keys.selectOption then
         gameState = 0
       end
     end
-    
+    ----------------------- 
 end
+
 function rgb(r, g, b)
     return r/255, g/255, b/255
 end

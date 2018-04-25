@@ -5,6 +5,9 @@ local building = {}
 local mult = 4
 local size = 0
 
+local playerXblock = 1
+local playerYblock = 1
+
 local Imgs = {resImg, comImg, indImg}
 local audio
 
@@ -28,7 +31,8 @@ function buildings.load()
   end
 
 function buildings.update(dt)
-    
+    playerXblock = math.floor(((player.getPx() - player.getSpriteWidth(1, "ready")/2) + size/2)/size) + 1 --translates player's x position to position in building matrix
+    playerYblock = math.floor(HEIGHT/size - (player.getPy() + player.getSpriteHeight(1, "ready"))/size)   --translates player's y position to position in building matrix
     
 end
 
@@ -48,23 +52,21 @@ function buildings.draw()
     end
     
     --debug
-    --love.graphics.print(math.floor(HEIGHT/size - (player.getPy()+ player.getSpriteHeight(1, "ready"))/size), 100, 100)
+    love.graphics.print(playerXblock, 100, 400)
+    love.graphics.print(playerYblock, 100, 500)
     
 end
 
 ------------------
 
-function buildings.init(x, y)
-    local temp1 = math.floor((x + size/2)/size) + 1 --translates player position to position in building matrix
-    local temp2 = math.floor(HEIGHT/size - y/size)  --translates player position to position in building matrix
-    
-    if building[temp1][temp2] == "z" and (temp2 == 1 or building[temp1][temp2 - 1] ~= "z") then
+function buildings.init(x, y)    
+    if building[playerXblock][playerYblock] == "z" and playerYblock <= 6 and (playerYblock == 1 or building[playerXblock][playerYblock - 1] ~= "z") then
       if player.getBuildType() == 1 then
-        building[temp1][temp2] = "r"
+        building[playerXblock][playerYblock] = "r"
       elseif player.getBuildType() == 2 then
-        building[temp1][temp2] = "c"
+        building[playerXblock][playerYblock] = "c"
       elseif player.getBuildType() == 3 then
-        building[temp1][temp2] = "i"
+        building[playerXblock][playerYblock] = "i"
       end
       audio:play()
       
@@ -72,13 +74,35 @@ function buildings.init(x, y)
     
 end
 
-function floorCollision(x, y)
-  
+function buildings.floorCollision()    
+    if building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1 then
+      return true
+    else
+      return false
+    end
 end
 
 ------gets/sets------
+function buildings.getSpriteSize(kind)
+    kind = kind or "ready"
+    if kind == "ready" then
+      return Imgs.resImg:getWidth() * mult
+    elseif kind == "pure" then
+      return Imgs.resImg:getWidth()
+    end
+end
+
 function buildings.getImgs()
     return Imgs
 end
 
+function buildings.getPlayerXblock()
+    return playerXblock
+  end
+  
+  function buildings.getPlayerYblock()
+    return playerYblock
+  end
+  
+--
 return buildings
