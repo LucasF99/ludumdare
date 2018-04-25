@@ -83,6 +83,7 @@ function player.update(dt)
     end
     
     if py + player.getSpriteWidth(1) > limit then
+      gravVel = 0
       py = limit - player.getSpriteWidth(1)
     end
     
