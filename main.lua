@@ -78,7 +78,7 @@ function love.update(dt)
       player.update(dt)
       meteor.update(dt)
       buildings.update(dt)
-      --ui.updateResources(dt)
+      ui.updateResources(dt)
     end
 end
   

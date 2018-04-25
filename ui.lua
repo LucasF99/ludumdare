@@ -10,6 +10,8 @@ local data = {
   matPS = 2.5,
   pointsPS = 1
 }
+local pts = 0
+
 function ui.load()
     buildings = require "buildings"
     player = require "player"
@@ -46,26 +48,26 @@ function ui.setMaterial(v)
     data.material = v
 end
 
---[[function ui.updateResources(dt)
-    pts = data.pointsPS*dt
-    for i = 1, buildings.getTowerAmount(), 1 do
-      for j = 1, buildings.getTowerHeight(i), 1 do
-        pts = pts + data.pointsPS*dt
-        t = buildings.getFloorType(i, j)
-        if t == 1 then
+function ui.updateResources(dt)
+    pts = pts + data.pointsPS*dt *0.001*(buildings.getNum()[1]+buildings.getNum()[2]+buildings.getNum()[3])
+    
+    for i = 1, 15, 1 do
+      for j = 1, 6, 1 do
+        if buildings.getBuilding()[i][j] == "r" then
           data.people = data.people + data.peopPS*dt * 2/math.log(data.points)
-        elseif t == 2 then
+        elseif buildings.getBuilding()[i][j] == "c" then
           data.money = data.money + data.monPS*dt  * 2/math.log(data.points)
-        elseif t == 3 then
+        elseif buildings.getBuilding()[i][j] == "i" then
           data.material = data.material + data.matPS*dt * 2/math.log(data.points)
         end
       end
     end
+    
     data.people = data.people + data.peopPS*dt
     data.money = data.money + data.monPS*dt
     data.material = data.material + data.matPS*dt
     data.points = data.points + pts
-end]]
+end
 
 function ui.draw()
   ------Resources------

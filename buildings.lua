@@ -8,6 +8,10 @@ local size = 0
 local playerXblock = 1
 local playerYblock = 1
 
+local resNum = 0
+local comNum = 0
+local indNum = 0
+
 local Imgs = {resImg, comImg, indImg}
 local audio
 
@@ -21,6 +25,7 @@ function buildings.load()
     
     player = require "player"
     meteor = require "meteor"
+    ui = require "ui"
     
     Imgs.resImg = love.graphics.newImage("res/buildings/residential_1.png")
     Imgs.comImg = love.graphics.newImage("res/buildings/commercial_1.png")
@@ -71,23 +76,42 @@ end
 
 function buildings.init(x, y)    
     if building[playerXblock][playerYblock] == "z" and playerYblock <= 6 and (playerYblock == 1 or building[playerXblock][playerYblock - 1] ~= "z") then
-      if player.getBuildType() == 1 then
+      if player.getBuildType() == 1 and ui.getMoney() >= 20 and ui.getMaterial() >= 20 then
+        resNum = resNum + 1
         building[playerXblock][playerYblock] = "r"
-      elseif player.getBuildType() == 2 then
+        ui.setMoney(ui.getMoney() - 20)
+        ui.setMaterial(ui.getMaterial() - 20)        
+        audio:play()
+      elseif player.getBuildType() == 2 and ui.getPeople() >= 20 and ui.getMaterial() >= 20 then
+        comNum = comNum + 1
         building[playerXblock][playerYblock] = "c"
-      elseif player.getBuildType() == 3 then
+        ui.setPeople(ui.getPeople() - 20)
+        ui.setMaterial(ui.getMaterial() - 20)
+        audio:play()
+      elseif player.getBuildType() == 3 and ui.getMoney() >= 20 and ui.getPeople() >= 20 then
+        indNum = indNum + 1
         building[playerXblock][playerYblock] = "i"
+        ui.setPeople(ui.getPeople() - 20)
+        ui.setMoney(ui.getMoney() - 20)
+        audio:play()
       end
-      audio:play()
       
     end
     
 end
 
---[[function buildings.remove(i, j)
+function buildings.remove(i, j)
+    if building[i][j] == "r" then
+      resNum = resNum - 1
+    elseif building[i][j] == "c" then
+      comNum = comNum - 1
+    else
+      indNum = indNum - 1
+    end
+    
     building[i][j] = "z"
     while true do
-      if building[i][j + 1] ~= "z" then
+      if j + 1 <= 6 and building[i][j + 1] ~= "z" then
         building[i][j] = building[i][j + 1]
         building[i][j + 1] = "z"
       else
@@ -96,7 +120,7 @@ end
       j = j + 1
     end
     
-end]]
+end
 
 function buildings.floorCollision()    
     if (building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1) or
@@ -112,7 +136,7 @@ end
 function buildings.meteorCollision(x, y, i)
     if x <= 15 and x >= 1 and y >= 1 and y <= 6 then
       if building[x][y] ~= "z" then
-        --buildings.remove(meteor.getXblock(i), meteor.getYblock(i))
+        buildings.remove(x, y)
         meteor.remove(i)
       end
     end
@@ -130,6 +154,14 @@ end
 
 function buildings.getImgs()
     return Imgs
+end
+
+function buildings.getBuilding()
+    return building
+end
+
+function buildings.getNum()
+    return {resNum, comNum , indNum} 
 end
 
 function buildings.getPlayerXblock()
