@@ -106,7 +106,7 @@ end
 
 ------------
 function meteor.playerCollide(x, y, size)
-    if math.sqrt((x - player.getPx())^2 + (y - player.getPy())^2) < size*sprite[1]:getWidth()*0.75 then
+    if math.sqrt( (x - ( player.getPx() + player.getSpriteWidth(1)/2 )  )^2 + (y - (player.getPy() + player.getSpriteHeight(1)/4 ) )^2 ) < size*sprite[1]:getWidth()*0.75 then
       return true
     else
       return false
