@@ -114,8 +114,4 @@ function meteor.playerCollide(x, y, size)
     
 end
 
-function meteor.buildingCollide()
-  
-end
-
 return meteor
