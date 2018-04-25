@@ -75,7 +75,10 @@ function buildings.init(x, y)
 end
 
 function buildings.floorCollision()    
-    if building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1 then
+    if (building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1) or
+       (playerYblock > 1 and playerXblock < 15 and building[playerXblock + 1][playerYblock - 1] ~= "z" and player.getPx() > playerXblock*buildings.getSpriteSize() - player.getSpriteWidth(1)*0.6) or
+       (playerYblock > 1 and playerXblock > 1 and building[playerXblock - 1][playerYblock - 1] ~= "z" and player.getPx() < (playerXblock - 1)*buildings.getSpriteSize()- player.getSpriteWidth(1)*0.3)
+    then
       return true
     else
       return false

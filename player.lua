@@ -12,7 +12,6 @@ local hp = 10
 local velocity = (WIDTH/1920)*800
 local buildType = 1
 local moving = false
-local jumping = false
 local building = false
 
 local jumpInitSpeed = (HEIGHT/1080)*1300
@@ -110,9 +109,9 @@ function player.defineSprite()
     --returns the sprite index to draw based on the direction the player is moving
     if building then
       return frame%4 + 18
-    elseif moving == "right" and not jumping then
+    elseif moving == "right" and player.isTouching() then
       return frame%8 + 1
-    elseif moving == "left" and not jumping then
+    elseif moving == "left" and player.isTouching() then
       return frame%8 + 9
     elseif moving == "right" then
       return 1
