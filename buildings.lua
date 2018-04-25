@@ -20,6 +20,7 @@ function buildings.load()
     end
     
     player = require "player"
+    meteor = require "meteor"
     
     Imgs.resImg = love.graphics.newImage("res/buildings/residential_1.png")
     Imgs.comImg = love.graphics.newImage("res/buildings/commercial_1.png")
@@ -40,6 +41,14 @@ function buildings.draw()
     love.graphics.setColor(1,1,1)
     for i = 1, 15, 1 do
       for j = 1, 6, 1 do
+        
+        if DEBUG then --DEBUG: draws matrix
+          love.graphics.setColor(rgb(146, 244, 66))
+          love.graphics.rectangle("fill", (i-1)*size, 0, 1, HEIGHT)
+          love.graphics.rectangle("fill", 0, FLOOR -j*size, WIDTH, 1)
+          love.graphics.setColor(1,1,1)
+        end        
+        
         if building[i][j] == "r" then
           love.graphics.draw(Imgs.resImg, (i-1)*size, FLOOR - j*size, 0, mult, mult)
         elseif building[i][j] == "c" then
@@ -51,9 +60,10 @@ function buildings.draw()
       end
     end
     
-    --debug
-    love.graphics.print(playerXblock, 100, 400)
-    love.graphics.print(playerYblock, 100, 500)
+    if DEBUG then --DEBUG: players current block
+      love.graphics.print(playerXblock,  100, 250)
+      love.graphics.print(playerYblock, 150, 250)
+    end
     
 end
 
@@ -74,18 +84,19 @@ function buildings.init(x, y)
     
 end
 
-function buildings.remove(i, j)
+--[[function buildings.remove(i, j)
     building[i][j] = "z"
     while true do
       if building[i][j + 1] ~= "z" then
         building[i][j] = building[i][j + 1]
+        building[i][j + 1] = "z"
       else
         break
       end
       j = j + 1
     end
     
-end
+end]]
 
 function buildings.floorCollision()    
     if (building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1) or
@@ -98,6 +109,15 @@ function buildings.floorCollision()
     end
 end
 
+function buildings.meteorCollision(x, y, i)
+    if x <= 15 and x >= 1 and y >= 1 and y <= 6 then
+      if building[x][y] ~= "z" then
+        --buildings.remove(meteor.getXblock(i), meteor.getYblock(i))
+        meteor.remove(i)
+      end
+    end
+    
+end
 ------gets/sets------
 function buildings.getSpriteSize(kind)
     kind = kind or "ready"
@@ -119,6 +139,5 @@ function buildings.getPlayerXblock()
   function buildings.getPlayerYblock()
     return playerYblock
   end
-  
 --
 return buildings

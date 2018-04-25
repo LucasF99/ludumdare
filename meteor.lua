@@ -5,6 +5,10 @@ local sprite = {}
 local gravity = 300
 local animSpd = 10
 local meteorRate = 12
+
+local meteorXblock = {}
+local meteorYblock = {}
+
 local meteors = {
     px = {},
     py = {},
@@ -23,6 +27,7 @@ function meteor.load()
     
     --setup
     player = require "player"
+    buildings = require "buildings"
     
 end
 
@@ -57,15 +62,20 @@ function meteor.update(dt)
       end
     end
     
+    for i = #meteors.px, 1, -1 do
+      buildings.meteorCollision(math.floor(meteors.px[i]/buildings.getSpriteSize()) + 1, math.floor(HEIGHT/buildings.getSpriteSize() - meteors.py[i]/buildings.getSpriteSize()),i)
+    end    
+    
 end
 
 function meteor.draw()
     for i = #meteors.px, 1, -1 do
-      --[[ debug (draws x and y lines):
+      
+    if DEBUG then --DEBUG (draws x and y lines):
       love.graphics.setColor(1,1,1)
       love.graphics.rectangle("fill", meteors.px[i], 0, 1, HEIGHT)
       love.graphics.rectangle("fill", 0, meteors.py[i], WIDTH, 1)
-      ]]
+    end
       
       --draws meteor
       love.graphics.setColor(1,1,1)
@@ -92,6 +102,8 @@ function meteor.init()
       table.insert(meteors.velocityX, math.random(-1000, 0))
     end
     
+    --buildings.newMeteor()
+    
 end
 
 function meteor.remove(i)
@@ -114,4 +126,17 @@ function meteor.playerCollide(x, y, size)
     
 end
 
+------gets/sets------
+function meteor.getXblock(i)
+    return meteorXblock[i]
+end
+
+function meteor.getYblock(i)
+    return meteorYblock[i]
+end
+
+function meteor.getNum()
+    return #meteors.px
+end
+--
 return meteor

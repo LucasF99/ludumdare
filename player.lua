@@ -93,8 +93,9 @@ function player.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(sprite[player.defineSprite()], px, py, 0, sizeMult, sizeMult)
     
-    --debug
-    love.graphics.print(tostring(player.isTouching()), 100, 200)
+    if DEBUG then
+      love.graphics.print("Player touching floor? "..tostring(player.isTouching()), 100, 200)
+    end
     
 end
 

@@ -6,6 +6,7 @@
 local fullScreenState = false
 local vsyncState = false
 local _, _, flags = love.window.getMode()
+DEBUG = false
 WIDTH, HEIGHT = love.window.getDesktopDimensions(flags.display)
 gameState = 0
 
@@ -83,15 +84,15 @@ end
   
 function love.draw()
     ------GAMESTATE 1------
-    if gameState == 1 then      
-      love.graphics.setColor(0.4, 0.4, 0.4)
-      love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
-      
+    if gameState == 1 then            
       buildings.draw()
       player.draw()
       meteor.draw()
       ui.draw()
       
+      --draws floor
+      love.graphics.setColor(0.4, 0.4, 0.4)
+      love.graphics.rectangle("fill", 0 , FLOOR, WIDTH, (HEIGHT/1080)*(HEIGHT - FLOOR)*2)
       
     if pause then
       love.graphics.setColor(0, 0, 0, 0.5)
