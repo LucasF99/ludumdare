@@ -1,226 +1,229 @@
 local player = {}
-local data = {
-  sprite = {},
-  audio = {},
-  hp = 10,
-  px = 500, py = 0,
-  mult = (WIDTH/1920)*4.5,
-  size = 16 * (WIDTH/1920)*4.5,
-  velocity = (WIDTH/1920)*800,  
-  keys = {right = "right", left = "left", jump = "space",
-          buildRes = "1", buildComm = "2", buildInd = "3"},
-  time = 17,
-  moving = false,
-  jumping = false,
-  jumpInitSpeed = (HEIGHT/1080)*1400,
-  gravVel = 0,
-  gravStr = 10,
-  velLimit = 1700,
-  buildType = 1,
-  meteorTime = 0,
-  building = false
-}
 
+------Variables------
+local sprite = {}
+local audio = {}
+local sizeMult = (WIDTH/1920)*4.5
+local keys = {right = "right", left = "left", jump = "space", build = "down", buildRes = "1", buildComm = "2", buildInd = "3"}
+
+local px = WIDTH/2
+local py = 0 --is initialized later
+local hp = 10
+local velocity = (WIDTH/1920)*800
+local buildType = 1
+local moving = false
+local building = false
+
+local jumpInitSpeed = (HEIGHT/1080)*1300
+local gravVel = 0
+local gravity = (HEIGHT/1080)*5000
+local limit = FLOOR
+
+local meteorTime = 0
+
+local time = 0
+local frame = 17
+local frameTime = 0.035 --for how long in seconds each frame of the sprite is displayed
+
+------Functions------
 function player.load()
+    --loads player sprite
     love.graphics.setDefaultFilter("nearest")
     for i = 1, 21, 1 do
-      player.setSprite(love.graphics.newImage("res/player/player_".. i .. ".png"), i)
+      sprite[i] = love.graphics.newImage("res/player/player_".. i .. ".png")
     end
     
-    player.setAudio(1 , love.audio.newSource("res/audio/step.mp3", "static")) 
-    player.setAudio(2 , love.audio.newSource("res/audio/jump.mp3", "static"))
-    player.setPy(FLOOR - player.getSize() - 8)
-end
-
-function player.setSprite(a, num)
-    data.sprite[num] = a
-end
-
-function player.getSprite(num)
-    return data.sprite[num]
-end
-
-function player.getMeteorTime()
-    return data.meteorTime
-end
-
-function player.setPx(a)
-    data.px = a
-end
-
-function player.getPx()
-    return data.px
-end
-
-function player.setPy(a)
-    data.py = a
-end
-
-function player.getPy()
-    return data.py
-end
-
-function player.setHp(a)
-    data.hp = a
-end
-
-function player.getHp()
-    return data.hp
-end
-
-function player.getBuildResKey()
-    return data.keys.buildRes
-end
-
-function player.getBuildCommKey()
-    return data.keys.buildComm
-end
-
-function player.getBuildIndKey()
-    return data.keys.buildInd
-end
-
-function player.getBuildType()
-    return data.buildType
-end
-
-function player.setBuildType(t)
-    data.buildType = t
-end
-
-function player.getHp()
-    return data.hp
-end
-function player.setVelocity(a)
-    data.velocity = (WIDTH/1920)*a
-end
-function player.getVelocity()
-    return data.velocity
-end
-function player.getJumpKey()
-    return data.keys.jump
-end
-function player.setMult(a)
-    data.mult = a*(WIDTH/1920)
-end
-
-function player.getMult()
-    return data.mult
-end
-
-function player.getGravVel()
-    return data.gravVel
-end
-
-function player.getSize()
-    return data.size
-end
-function player.setAudio(num, a)
-    data.audio[num] = a
-end
-
-function player.build()
-    data.time = 18
-    building = true
-end
-function player.jumped()
-    if buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
-      data.gravVel = -data.jumpInitSpeed
-      data.audio[2]:play()
-    end
-end
---
-function player.getFrame()
-    if building and data.time >= 26 then
-      building = false
-    end
-    if building then
-      return player.getSprite(math.floor(data.time)%4 + 18)
-    elseif data.moving == "right" and not jumping then
-      return player.getSprite(math.floor(data.time)%((16)/2) + 1)
-    elseif data.moving == "left" and not jumping then
-      return player.getSprite(math.floor(data.time)%((16)/2) + 1 + (16)/2)
-    elseif data.moving == "right" and jumping then
-      return player.getSprite(1)
-    elseif data.moving == "left" and jumping then
-      return player.getSprite(13)
-    else
-      return player.getSprite(17)
-    end
-end
-function player.uFrame(dt)
-    data.time = data.time+dt*data.velocity*0.05
-end
-
---
-function player.move(dt)
-    if love.keyboard.isDown(data.keys.right) and not love.keyboard.isDown(data.keys.left) and data.px < WIDTH - player.getSize() then
-      data.px = data.px + data.velocity*dt
-      data.moving = "right"
-    elseif love.keyboard.isDown(data.keys.left) and not love.keyboard.isDown(data.keys.right)  and data.px > 0  then
-      data.px = data.px - data.velocity*dt
-      data.moving = "left"
-    else
-      data.moving = false
-    end
+    --loads player sounds
+    audio[1] = love.audio.newSource("res/audio/step.mp3", "static")
+    audio[2] = love.audio.newSource("res/audio/jump.mp3", "static")
     
-    if data.px < 0 then
-      data.px = 1
-    elseif data.px > WIDTH - player.getSize() then
-      data.px = WIDTH - player.getSize()
-    end
-    
+    --setup
+    buildings = require "buildings"
+   
+    --sets player's initial height
+    py = FLOOR - player.getSpriteWidth(1)
 end
 
 function player.update(dt)
-    player.uFrame(dt)
     player.move(dt)
     
-    if data.hp <= 0 then
+    --goes to start screen if player is killed
+    if hp <= 0 then
       gameState = 0
     end
     
-    if data.moving ~= false and not jumping then
-      data.audio[1]:play()
+    time = time + dt
+    --resets time after waiting for the time a frame should last based on 'frameTime'
+    if time >= frameTime then
+      time = 0
+      frame = frame + 1
     end
     
-    player.setPy(player.getPy() + data.gravVel*dt)
-    if buildings.checkFloorCollision(player.getPx(), player.getPy(), player.getSize(), player.getSize()) then
-      data.gravVel = 0
-      jumping = false
+    if meteorTime < 600 then
+      meteorTime = meteorTime + 25*dt
     else
-      if data.gravVel + data.gravStr > data.velLimit then
-        data.gravVel = data.velLimit
-      else
-        data.gravVel = data.gravVel + data.gravStr
-      end
-      jumping = true
-    end
-      
-    if data.meteorTime < 600 then
-      data.meteorTime = data.meteorTime + 25*dt
-    else
-      data.meteorTime = 600
+      meteorTime = 600
     end
     
-    if buildings.checkBodyCollision(data.px, data.py, data.size, data.size) and player.getGravVel() > 1200 then
-      player.gravVel = 0
-      data.py = HEIGHT-(math.ceil((HEIGHT-data.py)/buildings.getFh())*buildings.getFh())
+    --makes stepping sound when moving and not jumping
+    if moving ~= false and player.isTouching() then
+      audio[1]:play()
     end
-end
-
-function player.checkCollision(x, y)
-  if x + 80>= data.px and x - 80 <= data.px then
-    if y + 80>= data.py and y - 80 <= data.py then
-      return true
+    
+    if buildings.floorCollision() and buildings.getPlayerYblock() <= 7 then
+      limit = HEIGHT - buildings.getPlayerYblock()*buildings.getSpriteSize()
+    else
+      limit = FLOOR
     end
-  end
-  return false
+    
+    if not player.isTouching() then
+      gravVel = gravVel + gravity*dt
+      py = py + gravVel*dt
+    end
+    
+    if py + player.getSpriteWidth(1) > limit then
+      gravVel = 0
+      py = limit - player.getSpriteWidth(1)
+    end
+    
 end
 
 function player.draw()
+    --draws player
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(player.getFrame(), player.getPx(), player.getPy(), 0, player.getMult(), player.getMult())
+    love.graphics.draw(sprite[player.defineSprite()], px, py, 0, sizeMult, sizeMult)
+    
+    if DEBUG then
+      love.graphics.print("Player touching floor? "..tostring(player.isTouching()), 100, 200)
+    end
+    
 end
+
+-----------------
+function player.defineSprite()
+    -- loops through building animation frames
+    if building and frame >= 24 then
+      frame = 0
+      building = false
+    end
+    
+    --returns the sprite index to draw based on the direction the player is moving
+    if building then
+      return frame%4 + 18
+    elseif moving == "right" and player.isTouching() then
+      return frame%8 + 1
+    elseif moving == "left" and player.isTouching() then
+      return frame%8 + 9
+    elseif moving == "right" then
+      return 1
+    elseif moving == "left" then
+      return 13
+    else
+      return 17
+    end
+    
+end
+
+function player.move(dt)
+    --walks right or left or doesn't walk
+    if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - player.getSpriteWidth(1) then
+      px = px + velocity*dt
+      moving = "right"
+    elseif love.keyboard.isDown(keys.left) and not love.keyboard.isDown(keys.right)  and px > 0  then
+      px = px - velocity*dt
+      moving = "left"
+    else
+      moving = false
+    end
+    
+    --doesn't allow player to walk out of screen
+    if px < 0 then
+      px = 0
+    elseif px > WIDTH - player.getSpriteWidth(1) then
+      px = WIDTH - player.getSpriteWidth(1)
+    end
+    
+end
+
+function player.build()
+    --when build key is pressed, start build animation
+    frame = 18
+    building = true
+    
+end
+
+function player.jumped()
+    if player.isTouching() then --buildings.checkFloorCollision(px, py, size, size) then
+      py = py-1
+      gravVel = -jumpInitSpeed
+      audio[2]:play()
+    end
+    
+end
+
+function player.isTouching()
+    if py + player.getSpriteWidth(1) == limit then
+      return true
+    else
+      return false
+    end
+    
+  end
+
+------gets/sets------
+function player.getSpriteWidth(i, kind)
+    kind = kind or "ready"
+    if kind == "ready" then
+      return sprite[i]:getWidth() * sizeMult
+    elseif kind == "pure" then
+      return sprite[i]:getWidth()
+    end
+end
+
+function player.getSpriteHeight(i, kind)
+    kind = kind or "ready"
+    if kind == "ready" then
+      return sprite[i]:getHeight() * sizeMult
+    elseif kind == "pure" then
+      return sprite[i]:getHeight()
+    end
+end
+
+function player.getMeteorTime()
+    return meteorTime
+end
+
+function player.getPx()
+    return px
+end
+
+function player.getPy()
+    return py
+end
+
+function player.getHp()
+    return hp
+end
+
+function player.getKeys()
+    return keys
+end
+
+function player.getBuildType()
+    return buildType
+end
+
+function player.getGravVel()
+    return gravVel
+end
+
+function player.setBuildType(a)
+    buildType = a
+end
+
+function player.damage(a)
+    hp = hp - a
+end
+
 --
 return player
