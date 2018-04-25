@@ -61,7 +61,7 @@ function player.update(dt)
     end
     
     if meteorTime < 600 then
-    meteorTime = meteorTime + 25*dt
+      meteorTime = meteorTime + 25*dt
     else
       meteorTime = 600
     end
@@ -94,6 +94,7 @@ function player.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(sprite[player.defineSprite()], px, py, 0, sizeMult, sizeMult)
     
+    --debug
     love.graphics.print(tostring(player.isTouching()), 100, 200)
     
 end

@@ -43,12 +43,6 @@ function meteor.update(dt)
           return
         end
         
-        --checks meteor-player collission
-        --[[if player.checkCollision(meteors.px[i], meteors.py[i]) then
-          player.damage(2)
-          meteor.remove(i)
-        end]]
-        
       end
     end
     
@@ -56,7 +50,7 @@ end
 
 function meteor.draw()
     for i = #meteors.px, 1, -1 do
-      --[[ debug (draws x and y lines): 
+      --[[ debug (draws x and y lines):
       love.graphics.setColor(1,1,1)
       love.graphics.rectangle("fill", meteors.px[i], 0, 1, HEIGHT)
       love.graphics.rectangle("fill", 0, meteors.py[i], WIDTH, 1)
