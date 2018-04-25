@@ -76,7 +76,7 @@ function love.update(dt)
     if gameState == 1 and not pause then
       player.update(dt)
       meteor.update(dt)
-      ui.updateResources(dt)
+      --ui.updateResources(dt)
     end
 end
   
@@ -173,8 +173,9 @@ function love.keypressed(key)
         player.jumped()
       end
       
-      if key == buildings.getBuildKey() then
-        buildings.build(player.getPx(), player.getPy())
+      if key == player.getKeys().build then
+        player.build()
+        buildings.init(player.getPx() - player.getSpriteWidth(1, "ready")/2, player.getPy() + player.getSpriteHeight(1, "ready"))
       end
       
       if key == player.getKeys().buildRes then

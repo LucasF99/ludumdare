@@ -3,25 +3,27 @@ local player = {}
 ------Variables------
 local sprite = {}
 local audio = {}
+local sizeMult = (WIDTH/1920)*4.5
+local keys = {right = "right", left = "left", jump = "space", build = "down", buildRes = "1", buildComm = "2", buildInd = "3"}
+
+local px = WIDTH/2
+local py = 0 --is initialized later
 local hp = 10
-local px = 500
-local py = 0
-local mult = (WIDTH/1920)*4.5
-local size = 16 * (WIDTH/1920)*4.5
 local velocity = (WIDTH/1920)*800
-local keys = {right = "right", left = "left", jump = "space", buildRes = "1", buildComm = "2", buildInd = "3"}
-local time = 17
+local buildType = 1
 local moving = false
 local jumping = false
-local jumpInitSpeed = (HEIGHT/1080)*1400
-local gravVel = 0
-local gravStr = 10
-local velLimit = 1700
-local buildType = 1
-local meteorTime = 0
 local building = false
-local frame = 0
-local frameTime = 0.035
+
+local jumpInitSpeed = (HEIGHT/1080)*1300
+local gravVel = 0
+local gravity = (HEIGHT/1080)*5000
+
+local meteorTime = 0
+
+local time = 0
+local frame = 17
+local frameTime = 0.035 --for how long in seconds each frame of the sprite is displayed
 
 ------Functions------
 function player.load()
@@ -36,60 +38,52 @@ function player.load()
     audio[2] = love.audio.newSource("res/audio/jump.mp3", "static")
    
     --sets player's initial height
-    py = FLOOR - size - 8
+    py = FLOOR - player.getSpriteWidth(1)
 end
 
 function player.update(dt)
     player.move(dt)
-    
-    
-    time = time + dt
-    
-    --resets time after waiting for the time a frame should last based on 'frameTime'
-    if time >= frameTime then
-      time = 0
-      frame = frame + 1
-    end
     
     --goes to start screen if player is killed
     if hp <= 0 then
       gameState = 0
     end
     
-    --makes stepping sound when moving and not jumping
-    if moving ~= false and not jumping then
-      audio[1]:play()
+    time = time + dt
+    --resets time after waiting for the time a frame should last based on 'frameTime'
+    if time >= frameTime then
+      time = 0
+      frame = frame + 1
     end
     
-    py = py + gravVel*dt
-    if buildings.checkFloorCollision(px, py, size, size) then
-      gravVel = 0
-      jumping = false
-    else
-      if gravVel + gravStr > velLimit then
-        gravVel = velLimit
-      else
-        gravVel = gravVel + gravStr
-      end
-      jumping = true
-    end
-      
     if meteorTime < 600 then
-      meteorTime = meteorTime + 25*dt
+    meteorTime = meteorTime + 25*dt
     else
       meteorTime = 600
     end
     
-    if buildings.checkBodyCollision(px, py, size, size) and gravVel > 1200 then
-      player.gravVel = 0
-      py = HEIGHT-(math.ceil((HEIGHT-py)/buildings.getFh())*buildings.getFh())
+    --makes stepping sound when moving and not jumping
+    if moving ~= false and player.isTouching() then
+      audio[1]:play()
     end
+    
+    if not player.isTouching() then
+      gravVel = gravVel + gravity*dt
+      py = py + gravVel*dt
+    end
+    
+    if py + player.getSpriteWidth(1) > FLOOR then
+      py = FLOOR - player.getSpriteWidth(1)
+    end
+    
 end
 
 function player.draw()
     --draws player
     love.graphics.setColor(1, 1, 1)
-    love.graphics.draw(sprite[player.defineSprite()], px, py, 0, mult, mult)
+    love.graphics.draw(sprite[player.defineSprite()], px, py, 0, sizeMult, sizeMult)
+    
+    love.graphics.print(tostring(player.isTouching()), 100, 200)
     
 end
 
@@ -120,7 +114,7 @@ end
 
 function player.move(dt)
     --walks right or left or doesn't walk
-    if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - size then
+    if love.keyboard.isDown(keys.right) and not love.keyboard.isDown(keys.left) and px < WIDTH - player.getSpriteWidth(1) then
       px = px + velocity*dt
       moving = "right"
     elseif love.keyboard.isDown(keys.left) and not love.keyboard.isDown(keys.right)  and px > 0  then
@@ -132,9 +126,9 @@ function player.move(dt)
     
     --doesn't allow player to walk out of screen
     if px < 0 then
-      px = 1
-    elseif px > WIDTH - size then
-      px = WIDTH - size
+      px = 0
+    elseif px > WIDTH - player.getSpriteWidth(1) then
+      px = WIDTH - player.getSpriteWidth(1)
     end
     
 end
@@ -147,27 +141,28 @@ function player.build()
 end
 
 function player.jumped()
-    if buildings.checkFloorCollision(px, py, size, size) then
+    if player.isTouching() then --buildings.checkFloorCollision(px, py, size, size) then
+      py = py-1
       gravVel = -jumpInitSpeed
       audio[2]:play()
     end
     
 end
 
-function player.checkCollision(x, y)
-  if x + 80>= px and x - 80 <= px then
-    if y + 80>= py and y - 80 <= py then
+function player.isTouching()
+    if py + player.getSpriteWidth(1) == FLOOR then
       return true
+    else
+      return false
     end
+    
   end
-  return false
-end
 
 ------gets/sets------
 function player.getSpriteWidth(i, kind)
     kind = kind or "ready"
     if kind == "ready" then
-      return sprite[i]:getWidth() * mult
+      return sprite[i]:getWidth() * sizeMult
     elseif kind == "pure" then
       return sprite[i]:getWidth()
     end
@@ -176,7 +171,7 @@ end
 function player.getSpriteHeight(i, kind)
     kind = kind or "ready"
     if kind == "ready" then
-      return sprite[i]:getHeight() * mult
+      return sprite[i]:getHeight() * sizeMult
     elseif kind == "pure" then
       return sprite[i]:getHeight()
     end

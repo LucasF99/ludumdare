@@ -24,7 +24,7 @@ function meteor.load()
 end
 
 function meteor.update(dt)
-    if math.random(1,10000)<meteorRate*math.log(ui.getPoints())/10 then
+    if math.random(1,10000)<meteorRate then--*math.log(ui.getPoints())/10 then
       meteor.init()
     end
     
@@ -44,10 +44,10 @@ function meteor.update(dt)
         end
         
         --checks meteor-player collission
-        if player.checkCollision(meteors.px[i], meteors.py[i]) then
+        --[[if player.checkCollision(meteors.px[i], meteors.py[i]) then
           player.damage(2)
           meteor.remove(i)
-        end
+        end]]
         
       end
     end

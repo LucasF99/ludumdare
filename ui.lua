@@ -46,7 +46,7 @@ function ui.setMaterial(v)
     data.material = v
 end
 
-function ui.updateResources(dt)
+--[[function ui.updateResources(dt)
     pts = data.pointsPS*dt
     for i = 1, buildings.getTowerAmount(), 1 do
       for j = 1, buildings.getTowerHeight(i), 1 do
@@ -65,7 +65,7 @@ function ui.updateResources(dt)
     data.money = data.money + data.monPS*dt
     data.material = data.material + data.matPS*dt
     data.points = data.points + pts
-end
+end]]
 
 function ui.draw()
   ------Resources------
@@ -94,22 +94,22 @@ function ui.draw()
   ------Selection------
   if player.getBuildType() == 1 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().resImg, (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
-    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().comImg, (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().indImg, (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
   elseif player.getBuildType() == 2 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().comImg, (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
-    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().resImg, (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().indImg, (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
   elseif player.getBuildType() == 3 then
     love.graphics.setColor(1,1,1,1)
-    love.graphics.draw(buildings.getImage(3), (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().indImg, (WIDTH/1920)*450 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
     love.graphics.setColor(1,1,1, 0.3)
-    love.graphics.draw(buildings.getImage(1), (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
-    love.graphics.draw(buildings.getImage(2), (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().resImg, (WIDTH/1920)*150 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
+    love.graphics.draw(buildings.getImgs().comImg, (WIDTH/1920)*300 ,(HEIGHT/1080)*40, 0, (WIDTH/1920)*3, (WIDTH/1920)*3)
   end
   love.graphics.setColor(1,1,1,1)
   
