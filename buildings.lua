@@ -74,6 +74,19 @@ function buildings.init(x, y)
     
 end
 
+function buildings.remove(i, j)
+    building[i][j] = "z"
+    while true do
+      if building[i][j + 1] ~= "z" then
+        building[i][j] = building[i][j + 1]
+      else
+        break
+      end
+      j = j + 1
+    end
+    
+end
+
 function buildings.floorCollision()    
     if (building[playerXblock][playerYblock - 1] ~= "z" and playerYblock > 1) or
        (playerYblock > 1 and playerXblock < 15 and building[playerXblock + 1][playerYblock - 1] ~= "z" and player.getPx() > playerXblock*buildings.getSpriteSize() - player.getSpriteWidth(1)*0.6) or

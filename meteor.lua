@@ -21,6 +21,9 @@ function meteor.load()
       sprite[i] = love.graphics.newImage("res/enemy/meteor_".. i .. ".png")
     end
     
+    --setup
+    player = require "player"
+    
 end
 
 function meteor.update(dt)
@@ -42,6 +45,14 @@ function meteor.update(dt)
           meteor.remove(i)
           return
         end
+        
+      end
+    end
+    
+    for i = #meteors.px, 1, -1 do
+      if meteor.playerCollide(meteors.px[i], meteors.py[i], meteors.size[i]) then
+        meteor.remove(i)
+        player.damage(2)
         
       end
     end
@@ -91,6 +102,20 @@ function meteor.remove(i)
     table.remove(meteors.velocityY, i)
     table.remove(meteors.time, i)
     table.remove(meteors.size, i)
+end
+
+------------
+function meteor.playerCollide(x, y, size)
+    if math.sqrt((x - player.getPx())^2 + (y - player.getPy())^2) < size*sprite[1]:getWidth()*0.75 then
+      return true
+    else
+      return false
+    end
+    
+end
+
+function meteor.buildingCollide()
+  
 end
 
 return meteor

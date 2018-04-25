@@ -89,8 +89,10 @@ function love.draw()
       
       buildings.draw()
       player.draw()
-      ui.draw()
       meteor.draw()
+      ui.draw()
+      
+      
     if pause then
       love.graphics.setColor(0, 0, 0, 0.5)
       love.graphics.rectangle("fill", 0 , 0, WIDTH, HEIGHT)
