@@ -2,7 +2,7 @@ local buildings = {}
 
 ------Variables------
 local building = {}
-local mult = 4
+local mult = 4*(WIDTH/1920)
 local size = 0
 
 local playerXblock = 1
